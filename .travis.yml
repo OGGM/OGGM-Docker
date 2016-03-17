@@ -13,6 +13,7 @@ script:
  - export TAG="$([ "$TRAVIS_BRANCH" == "master" ] && echo "latest" || echo $TRAVIS_BRANCH)"
  - cd "${DF_BUILD_BASE_DIR}"
  - docker pull "${REPO}"
+ - docker pull ubuntu:16.04
  - docker build -f Dockerfile -t "${REPO}:${OGGM_COMMIT}" .
  - docker run "${REPO}:${OGGM_COMMIT}" /bin/bash -c 'eval ${OGGM_DOCKER_TEST_COMMAND}'
 
