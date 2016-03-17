@@ -21,3 +21,5 @@ sed -i -r "s|salem\.git@[A-Za-z0-9]+|salem.git@${SHA_SALEM}|" base{,2}/Dockerfil
 sed -i -r "s|cleo\.git@[A-Za-z0-9]+|cleo.git@${SHA_CLEO}|" base{,2}/Dockerfile || exit -2
 sed -i -r "s|motionless\.git@[A-Za-z0-9]+|motionless.git@${SHA_MOTIONLESS}|" base{,2}/Dockerfile || exit -2
 
+echo -n "${SHA_OGGM}" > oggm_commit.txt
+
