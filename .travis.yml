@@ -8,6 +8,7 @@ env:
  - DF_BUILD_BASE_DIR=base2
 
 script:
+ - set -e
  - export OGGM_COMMIT="$(cat oggm_commit.txt)"
  - export REPO="oggm/${DF_BUILD_BASE_DIR}"
  - export TAG="$([ "$TRAVIS_BRANCH" == "master" ] && echo "latest" || echo $TRAVIS_BRANCH)"
@@ -18,6 +19,7 @@ script:
  - docker run "${REPO}:${OGGM_COMMIT}" /bin/bash -c 'eval ${OGGM_DOCKER_TEST_COMMAND}'
 
 after_success:
+ - set -e
  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
  - docker tag "${REPO}:${OGGM_COMMIT}" "${REPO}:${TAG}"
  - docker tag "${REPO}:${OGGM_COMMIT}" "${REPO}:travis-${TRAVIS_BUILD_NUMBER}"
