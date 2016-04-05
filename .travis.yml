@@ -4,24 +4,33 @@ services:
  - docker
 
 env:
- - DF_BUILD_BASE_DIR=base
- - DF_BUILD_BASE_DIR=base2
+ - PY_VER=3
+ - PY_VER=2
 
 script:
  - set -e
+ - export PY_SFX="$([ "$PY_VER" == "2" ] && echo 2)"
  - export OGGM_COMMIT="$(cat oggm_commit.txt)"
- - export REPO="oggm/${DF_BUILD_BASE_DIR}"
  - export TAG="$([ "$TRAVIS_BRANCH" == "master" ] && echo "latest" || echo $TRAVIS_BRANCH)"
- - cd "${DF_BUILD_BASE_DIR}"
- - docker pull "${REPO}"
  - docker pull ubuntu:16.04
- - docker build -f Dockerfile -t "${REPO}:${OGGM_COMMIT}" .
- - docker run "${REPO}:${OGGM_COMMIT}" /bin/bash -c 'eval ${OGGM_DOCKER_TEST_COMMAND}'
+ - for basedir in base jupyter; do
+     BASE="${basedir}${PY_SFX}";
+     REPO="oggm/${BASE}";
+     DTAG="${REPO}:${OGGM_COMMIT}";
+     pushd "${BASE}";
+     docker pull "${REPO}";
+     docker build -f Dockerfile -t "${DTAG}" .;
+     docker tag -f "${DTAG}" "${REPO}:${TAG}";
+     docker tag -f "${DTAG}" "${REPO}:travis-${TRAVIS_BUILD_NUMBER}";
+     popd;
+   done
 
 after_success:
  - set -e
  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
- - docker tag -f "${REPO}:${OGGM_COMMIT}" "${REPO}:${TAG}"
- - docker tag -f "${REPO}:${OGGM_COMMIT}" "${REPO}:travis-${TRAVIS_BUILD_NUMBER}"
- - docker push "${REPO}"
+ - for basedir in base jupyter; do
+     BASE="${basedir}${PY_SFX}";
+     REPO="oggm/${BASE}";
+     docker push "${REPO}";
+   done
 
