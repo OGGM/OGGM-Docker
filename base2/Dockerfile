@@ -57,6 +57,6 @@ RUN \
 	pip install git+https://github.com/fmaussion/cleo.git@5822a3ce1242e2640ab72443fa891d7d825f7a84
 
 RUN \
-	pip install git+https://github.com/OGGM/oggm.git@576d1f0d05852570df043dadd6cc0f9b56c1ced7
+	pip install git+https://github.com/OGGM/oggm.git@7be3ae0910199588b4cb90f9c1f994e1280b2fd9
 
 ENV OGGM_DOCKER_TEST_COMMAND exec python2 -c \'import nose, os, sys, oggm; os.chdir(os.path.dirname(os.path.abspath(oggm.__file__))); nose.main(argv=[\"--detailed-errors\", \"--exe\"])\'
