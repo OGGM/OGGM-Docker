@@ -10,27 +10,12 @@ env:
 script:
  - set -e
  - export PY_SFX="$([ "$PY_VER" == "2" ] && echo 2)"
- - export OGGM_COMMIT="$(cat oggm_commit.txt)"
- - export TAG="$([ "$TRAVIS_BRANCH" == "master" ] && echo "latest" || echo $TRAVIS_BRANCH)"
  - docker pull ubuntu:16.04
- - for basedir in base jupyter; do
-     BASE="${basedir}${PY_SFX}";
-     REPO="oggm/${BASE}";
-     DTAG="${REPO}:${OGGM_COMMIT}";
-     pushd "${BASE}";
-     docker pull "${REPO}";
-     docker build -f Dockerfile -t "${DTAG}" .;
-     docker tag -f "${DTAG}" "${REPO}:${TAG}";
-     docker tag -f "${DTAG}" "${REPO}:travis-${TRAVIS_BUILD_NUMBER}";
-     popd;
-   done
+ - ./build_image.sh "base${PY_SFX}"
+ - ./build_image.sh "jupyter${PY_SFX}"
 
 after_success:
  - set -e
  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
- - for basedir in base jupyter; do
-     BASE="${basedir}${PY_SFX}";
-     REPO="oggm/${BASE}";
-     docker push "${REPO}";
-   done
-
+ - docker push "oggm/base${PY_SFX}"
+ - docker push "oggm/jupyter${PY_SFX}"
