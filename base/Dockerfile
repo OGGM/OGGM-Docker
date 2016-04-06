@@ -12,15 +12,7 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 RUN apt-get -y update && apt-get -y install \
-	build-essential \
-	liblapack-dev \
 	gfortran \
-	libproj-dev \
-	gdal-bin \
-	libgdal-dev \
-	netcdf-bin \
-	ncview \
-	tk-dev \
 	python3-netcdf4 \
 	python3-tk \
 	python3-dev \
@@ -46,7 +38,8 @@ RUN apt-get -y update && apt-get -y install \
 	cython3 \
 	ttf-bitstream-vera \
 	git \
-	awscli
+	awscli && \
+	apt-get clean
 
 RUN sed -i 's/^backend.*/backend : Agg/' /etc/matplotlibrc
 
