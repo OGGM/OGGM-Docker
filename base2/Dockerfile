@@ -44,7 +44,7 @@ RUN apt-get -y update && apt-get -y install \
 RUN sed -i 's/^backend.*/backend : Agg/' /etc/matplotlibrc
 
 RUN \
-	pip install xarray && \
+	pip install xarray progressbar2 && \
 	pip install git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
 	pip install git+https://github.com/fmaussion/salem.git@c157b24c5864f7bb6b4edabc5116d423eaa26562 && \
 	pip install git+https://github.com/fmaussion/cleo.git@5822a3ce1242e2640ab72443fa891d7d825f7a84
