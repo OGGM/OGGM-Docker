@@ -52,4 +52,3 @@ RUN \
 RUN \
 	pip install git+https://github.com/OGGM/oggm.git@62a131aa3baed2612972b188d8bd810b57bbc058
 
-ENV OGGM_DOCKER_TEST_COMMAND exec python2 -c \'import nose, os, sys, oggm; os.chdir(os.path.dirname(os.path.abspath(oggm.__file__))); nose.main(argv=[\"--detailed-errors\", \"--exe\"])\'
