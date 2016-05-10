@@ -50,5 +50,5 @@ RUN \
 	pip3 install git+https://github.com/fmaussion/cleo.git@5822a3ce1242e2640ab72443fa891d7d825f7a84
 
 RUN \
-	pip3 install git+https://github.com/OGGM/oggm.git@62a131aa3baed2612972b188d8bd810b57bbc058
+	pip3 install git+https://github.com/OGGM/oggm.git@bbca132e4a8c5dac173cabe4cb964f2170e0e824
 
