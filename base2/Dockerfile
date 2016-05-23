@@ -50,5 +50,5 @@ RUN \
 	pip install git+https://github.com/fmaussion/cleo.git@a2488bd61f91ffc4ddda17605c7f41e9f153f863
 
 RUN \
-	pip install git+https://github.com/OGGM/oggm.git@796e783368497dc281d3643664a75b4cbaa71236
+	pip install git+https://github.com/OGGM/oggm.git@e6b88faa1bfb1f5177f1109ef770ea6cc4eb5bed
 
