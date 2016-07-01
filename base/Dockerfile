@@ -48,7 +48,3 @@ RUN \
 	pip3 install git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
 	pip3 install git+https://github.com/fmaussion/salem.git@107c41244582e772778fd4f4ae1519769a3456ee && \
 	pip3 install git+https://github.com/fmaussion/cleo.git@a2488bd61f91ffc4ddda17605c7f41e9f153f863
-
-RUN \
-	pip3 install git+https://github.com/OGGM/oggm.git@ea0375c9925c8d9ba656a6c45ad8952b59f1c9ec
-
