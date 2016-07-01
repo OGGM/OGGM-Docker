@@ -48,6 +48,7 @@ RUN sed -i 's/^backend.*/backend : Agg/' /etc/matplotlibrc
 RUN \
 	pip3 install --upgrade pip setuptools && \
 	pip3 install xarray && \
+	pip3 install git+https://github.com/TimoRoth/python-progressbar.git@7c86a9138c2551c05752c55be87dae8681ac5a43 && \
 	pip3 install git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
 	pip3 install git+https://github.com/fmaussion/salem.git@107c41244582e772778fd4f4ae1519769a3456ee && \
 	pip3 install git+https://github.com/fmaussion/cleo.git@a2488bd61f91ffc4ddda17605c7f41e9f153f863
