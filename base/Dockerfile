@@ -15,40 +15,45 @@ ADD test.sh /root/test.sh
 
 RUN apt-get -y update && apt-get -y install \
 	gfortran \
-	python3-netcdf4 \
-	python3-tk \
-	python3-dev \
-	python3-pip \
-	python3-setuptools \
-	python3-numpy \
-	python3-scipy \
-	python3-pandas \
-	python3-shapely \
-	python3-matplotlib \
-	python3-gdal \
-	python3-fiona \
-	python3-pyproj \
-	python3-rasterio \
-	python3-pil \
-	python3-geopandas \
-	python3-skimage \
-	python3-skimage-lib \
-	python3-configobj \
-	python3-joblib \
-	python3-nose \
-	python3-descartes \
-	cython3 \
 	ttf-bitstream-vera \
 	git \
+	build-essential \
+	liblapack-dev \
+	libproj-dev \
+	libfreetype6-dev \
+	gdal-bin \
+	libgdal-dev \
+	libagg-dev \
+	netcdf-bin \
+	python3-netcdf4 \
+	python3-dev \
+	python3-numpy-dev \
+	python3-pip \
 	awscli && \
 	apt-get clean
 
-RUN sed -i 's/^backend.*/backend : Agg/' /etc/matplotlibrc
+RUN \
+	pip3 install --no-cache-dir --upgrade pip setuptools
 
 RUN \
-	pip3 install --upgrade pip setuptools && \
-	pip3 install xarray && \
-	pip3 install git+https://github.com/TimoRoth/python-progressbar.git@7c86a9138c2551c05752c55be87dae8681ac5a43 && \
-	pip3 install git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
-	pip3 install git+https://github.com/fmaussion/salem.git@107c41244582e772778fd4f4ae1519769a3456ee && \
-	pip3 install git+https://github.com/fmaussion/cleo.git@a2488bd61f91ffc4ddda17605c7f41e9f153f863
+	pip3 install --no-cache-dir --upgrade numpy && \
+	pip3 install --no-cache-dir --upgrade scipy && \
+	pip3 install --no-cache-dir --upgrade pandas shapely cython && \
+	pip3 install --no-cache-dir --upgrade matplotlib
+
+RUN \
+	pip3 install --no-cache-dir --upgrade gdal==1.11.2 --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
+
+RUN \
+	pip3 install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
+
+RUN \
+	pip3 install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray nose
+
+RUN \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/TimoRoth/python-progressbar.git@7c86a9138c2551c05752c55be87dae8681ac5a43 && \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@107c41244582e772778fd4f4ae1519769a3456ee && \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/cleo.git@a2488bd61f91ffc4ddda17605c7f41e9f153f863
+
+RUN sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc
