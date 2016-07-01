@@ -11,6 +11,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
+ADD test.sh /root/test.sh
+
 RUN apt-get -y update && apt-get -y install \
 	gfortran \
 	python3-netcdf4 \
