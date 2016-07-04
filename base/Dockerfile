@@ -56,3 +56,5 @@ RUN \
 	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/cleo.git@a2488bd61f91ffc4ddda17605c7f41e9f153f863
 
 RUN sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc
+
+RUN python3 -c "import matplotlib.font_manager"
