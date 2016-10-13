@@ -48,7 +48,7 @@ RUN \
 	pip3 install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
 
 RUN \
-	pip3 install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray nose progressbar2==3.9.4
+	pip3 install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray nose filelock progressbar2==3.9.4
 
 RUN \
 	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
