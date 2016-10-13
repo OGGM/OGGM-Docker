@@ -48,11 +48,11 @@ RUN \
 	pip3 install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
 
 RUN \
-	pip3 install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray nose progressbar2==3.9.4
+	pip3 install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray nose filelock progressbar2==3.9.4
 
 RUN \
 	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
-	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@107c41244582e772778fd4f4ae1519769a3456ee && \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@82ecd2582643d94d7568ed24eea7196370e754ff && \
 	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/cleo.git@e37d9f411156d30849a7ab7206dfefa86bcbb18f
 
 RUN sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc
