@@ -52,7 +52,7 @@ RUN \
 
 RUN \
 	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
-	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@151e4af2c6624f1bcd6c9c18119e0f8c8e5262e6 && \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@afc4fd7b32f6f3261184f9ad187e392bd5716c7f && \
 	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/cleo.git@8d20651eb6fd13713dbca6e4008d21dc1175c1fe
 
 RUN sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc
