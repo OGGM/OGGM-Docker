@@ -8,13 +8,11 @@ function getSha() {
 
 cd "$(dirname "$0")"
 
-SHA_MOTIONLESS="$(getSha fmaussion/motionless)"
 SHA_SALEM="$(getSha fmaussion/salem)"
 SHA_CLEO="$(getSha fmaussion/cleo)"
 
 sed -i -r "s|salem\.git@[A-Za-z0-9]+|salem.git@${SHA_SALEM}|" base/Dockerfile || exit -2
 sed -i -r "s|cleo\.git@[A-Za-z0-9]+|cleo.git@${SHA_CLEO}|" base/Dockerfile || exit -2
-sed -i -r "s|motionless\.git@[A-Za-z0-9]+|motionless.git@${SHA_MOTIONLESS}|" base/Dockerfile || exit -2
 
 cp base/Dockerfile untested_base/Dockerfile
 

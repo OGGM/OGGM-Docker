@@ -51,8 +51,8 @@ RUN \
 	pip3 install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock progressbar2==3.9.4
 
 RUN \
-	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/motionless.git@f281dc46d7c33159c36fbb98f6b62caf06184b35 && \
-	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@9cdd485c3906c36e12a496850b3e2ee25822e519 && \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/ryancox/motionless.git@6a2a4c93be2cb44a7ce505e39df642e3ef5dc0e0 && \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@5689556f145862c78188f316377e75945509266c && \
 	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/cleo.git@8d20651eb6fd13713dbca6e4008d21dc1175c1fe
 
 RUN sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc
