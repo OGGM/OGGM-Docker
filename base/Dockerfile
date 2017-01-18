@@ -11,8 +11,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
-ADD test.sh /root/test.sh
-
 RUN apt-get -y update && apt-get -y install \
 	gfortran \
 	ttf-bitstream-vera \
@@ -56,5 +54,7 @@ RUN \
 	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/cleo.git@8d20651eb6fd13713dbca6e4008d21dc1175c1fe
 
 RUN sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc
+
+ADD test.sh /root/test.sh
 
 RUN python3 -c "import matplotlib.font_manager"

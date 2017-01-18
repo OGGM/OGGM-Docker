@@ -15,4 +15,5 @@ sed -i -r "s|salem\.git@[A-Za-z0-9]+|salem.git@${SHA_SALEM}|" base/Dockerfile ||
 sed -i -r "s|cleo\.git@[A-Za-z0-9]+|cleo.git@${SHA_CLEO}|" base/Dockerfile || exit -2
 
 cp base/Dockerfile untested_base/Dockerfile
+cp base/test.sh untested_base/test.sh
 
