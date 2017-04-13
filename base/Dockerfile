@@ -8,9 +8,6 @@ MAINTAINER Timo Rothenpieler
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-
 RUN apt-get -y update && apt-get -y install \
 	gfortran \
 	ttf-bitstream-vera \
@@ -27,8 +24,12 @@ RUN apt-get -y update && apt-get -y install \
 	python3-dev \
 	python3-numpy-dev \
 	python3-pip \
-	awscli && \
+	awscli \
+	locales && \
 	apt-get clean
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
 
 RUN \
 	pip3 install --no-cache-dir --upgrade pip setuptools
