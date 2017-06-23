@@ -50,7 +50,7 @@ RUN \
 	pip3 install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov progressbar2 boto3 motionless
 
 RUN \
-	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@2afabb0e7b0174c39e896be2731d2084b12c5e5f && \
+	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@2afabb0e7b0174c39e896be2731d2084b12c5e5f
 
 RUN sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc
 
