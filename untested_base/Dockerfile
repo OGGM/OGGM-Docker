@@ -1,9 +1,9 @@
 ###################################################
-# Dockerfile to build a Python 3.5 environment
-# with OGGM installed, based on Ubuntu 16.04.
+# Dockerfile to build a Python 3.6 environment
+# with OGGM installed, based on Ubuntu 17.04.
 ###################################################
 
-FROM ubuntu:16.04
+FROM ubuntu:17.04
 MAINTAINER Timo Rothenpieler
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -19,41 +19,52 @@ RUN apt-get -y update && apt-get -y install \
 	gdal-bin \
 	libgdal-dev \
 	libagg-dev \
+	liblapack-dev \
 	netcdf-bin \
-	python3-netcdf4 \
-	python3-dev \
-	python3-numpy-dev \
+	libnetcdf-dev \
+	python3.6-dev \
+	python3.6 \
 	python3-pip \
-	awscli \
 	locales && \
-	apt-get clean
+	apt-get -y clean && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
+ENV PIP python3.6 -m pip
 
 RUN \
-	pip3 install --no-cache-dir --upgrade pip setuptools
+	$PIP install --no-cache-dir --upgrade pip setuptools
 
 RUN \
-	pip3 install --no-cache-dir --upgrade numpy && \
-	pip3 install --no-cache-dir --upgrade scipy && \
-	pip3 install --no-cache-dir --upgrade pandas shapely cython && \
-	pip3 install --no-cache-dir --upgrade matplotlib
+	$PIP install --no-cache-dir --upgrade numpy && \
+	$PIP install --no-cache-dir --upgrade scipy && \
+	$PIP install --no-cache-dir --upgrade pandas shapely cython
 
 RUN \
-	pip3 install --no-cache-dir --upgrade gdal==1.11.2 --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
+	$PIP install --no-cache-dir --no-binary matplotlib --upgrade matplotlib
 
 RUN \
-	pip3 install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
+	$PIP install --no-cache-dir --upgrade "gdal==2.1.3" --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
 
 RUN \
-	pip3 install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov progressbar2 boto3 motionless
+	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
 
 RUN \
-	pip3 install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@2afabb0e7b0174c39e896be2731d2084b12c5e5f
+	$PIP install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov progressbar2 boto3 motionless
 
-RUN sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc
+RUN \
+	$PIP install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@2afabb0e7b0174c39e896be2731d2084b12c5e5f
+
+RUN \
+	sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.6/dist-packages/matplotlib/mpl-data/matplotlibrc && \
+	sed -i "s/python3$/python3.6/g" "$(which pip3)" && \
+	cd /usr/bin && \
+	rm python3 && \
+	ln -s python3.6 python3
+
+RUN python3.6 -c "import matplotlib.font_manager, salem"
+
+RUN sed -i "s/python3$/python3.6/g" /usr/bin/pip3
 
 ADD test.sh /root/test.sh
-
-RUN python3 -c "import matplotlib.font_manager"
