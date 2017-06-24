@@ -10,7 +10,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -y update && apt-get -y install \
 	gfortran \
-	ttf-bitstream-vera \
+	fontconfig \
+	fonts-dejavu \
 	git \
 	build-essential \
 	liblapack-dev \
