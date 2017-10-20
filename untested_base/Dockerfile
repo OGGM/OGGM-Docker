@@ -3,7 +3,7 @@
 # with OGGM installed, based on Ubuntu 17.04.
 ###################################################
 
-FROM ubuntu:17.04
+FROM ubuntu:17.10
 MAINTAINER Timo Rothenpieler
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -46,7 +46,7 @@ RUN \
 	$PIP install --no-cache-dir --no-binary matplotlib --upgrade matplotlib
 
 RUN \
-	$PIP install --no-cache-dir --upgrade "gdal==2.1.3" --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
+	$PIP install --no-cache-dir --upgrade "gdal==2.2.1" --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
 
 RUN \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
