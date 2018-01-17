@@ -55,7 +55,7 @@ RUN \
 	$PIP install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov progressbar2 boto3 motionless
 
 RUN \
-	$PIP install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@36d608ea09dd181367072a3ef9d1eb7deef507c8
+	$PIP install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@d78e44c348e94c6cb93f8f723e408b6ba22fe1b2
 
 RUN \
 	sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.6/dist-packages/matplotlib/mpl-data/matplotlibrc && \
