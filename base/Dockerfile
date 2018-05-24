@@ -52,7 +52,7 @@ RUN \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
 
 RUN \
-	$PIP install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov pytest-xdist ilock progressbar2 boto3 motionless versioneer
+	$PIP install --no-cache-dir --upgrade pyproj rasterio Pillow geopandas "netcdf4<1.4" scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov pytest-xdist ilock progressbar2 boto3 motionless versioneer
 
 RUN \
 	$PIP install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@eeab83d4b78430a3eea2bdc83c426ae6e5806ece
