@@ -3,7 +3,7 @@
 # with OGGM installed, based on Ubuntu 17.10.
 ###################################################
 
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 MAINTAINER Timo Rothenpieler
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -23,8 +23,8 @@ RUN apt-get -y update && apt-get -y install \
 	liblapack-dev \
 	netcdf-bin \
 	libnetcdf-dev \
-	python3.6-dev \
-	python3.6 \
+	python3-dev \
+	python3 \
 	python3-pip \
 	locales && \
 	apt-get -y clean && \
@@ -32,7 +32,7 @@ RUN apt-get -y update && apt-get -y install \
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
-ENV PIP python3.6 -m pip
+ENV PIP pip3
 
 RUN \
 	$PIP install --no-cache-dir --upgrade "pip<10" setuptools
@@ -46,7 +46,7 @@ RUN \
 	$PIP install --no-cache-dir --no-binary matplotlib --upgrade matplotlib
 
 RUN \
-	$PIP install --no-cache-dir --upgrade "gdal==2.2.1" --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
+	$PIP install --no-cache-dir --upgrade "gdal==$(gdal-config --version)" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
 RUN \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
@@ -58,14 +58,8 @@ RUN \
 	$PIP install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@eeab83d4b78430a3eea2bdc83c426ae6e5806ece
 
 RUN \
-	sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.6/dist-packages/matplotlib/mpl-data/matplotlibrc && \
-	sed -i "s/python3$/python3.6/g" "$(which pip3)" && \
-	cd /usr/bin && \
-	rm python3 && \
-	ln -s python3.6 python3
+	sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.6/dist-packages/matplotlib/mpl-data/matplotlibrc
 
-RUN python3.6 -c "import matplotlib.font_manager, salem"
-
-RUN sed -i "s/python3$/python3.6/g" /usr/bin/pip3
+RUN python3 -c "import matplotlib.font_manager, salem"
 
 ADD test.sh /root/test.sh
