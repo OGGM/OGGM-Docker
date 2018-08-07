@@ -35,7 +35,7 @@ ENV LANG en_US.UTF-8
 ENV PIP pip3
 
 RUN \
-	$PIP install --no-cache-dir --upgrade "pip<10" setuptools
+	$PIP install --no-cache-dir --upgrade pip setuptools
 
 RUN \
 	$PIP install --no-cache-dir --upgrade numpy && \
