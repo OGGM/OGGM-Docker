@@ -1,5 +1,5 @@
 ###################################################
-# Dockerfile to build a Python 3.5 environment
+# Dockerfile to build a Python 3.6 environment
 # with OGGM and Jupyter installed.
 ###################################################
 
