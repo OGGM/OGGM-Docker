@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 
 SHA_SALEM="$(getSha fmaussion/salem)"
 
-sed -i -r "s|salem\.git@[A-Za-z0-9]+|salem.git@${SHA_SALEM}|" base/Dockerfile || exit -2
+sed -i -r "s|salem\.git@[A-Za-z0-9]+|salem.git@${SHA_SALEM}|" base/Dockerfile untested_base_py37/Dockerfile || exit -2
 
 cp base/Dockerfile untested_base/Dockerfile
 cp base/test.sh untested_base/test.sh
