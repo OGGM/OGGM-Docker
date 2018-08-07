@@ -81,7 +81,7 @@ RUN \
 
 RUN \
 	sed -i 's/^backend.*/backend : Agg/' /usr/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc && \
-	rm /usr/bin/python3{,m} && ln -s python3.7 /usr/bin/python3 && ln -s python3.7m /usr/bin/python3m
+	rm -f /usr/bin/python3 /usr/bin/python3m && ln -s python3.7 /usr/bin/python3 && ln -s python3.7m /usr/bin/python3m
 
 RUN python3.7 -c "import matplotlib.font_manager, salem"
 
