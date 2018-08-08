@@ -60,12 +60,13 @@ RUN \
 	$PIP install --no-cache-dir --upgrade pip setuptools
 
 RUN \
-	$PIP install --no-cache-dir --upgrade numpy && \
-	$PIP install --no-cache-dir --upgrade scipy && \
-	$PIP install --no-cache-dir --upgrade pandas shapely cython
+	$PIP install --no-cache-dir --upgrade --no-binary :all: cython && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely
 
 RUN \
-	$PIP install --no-cache-dir --no-binary matplotlib --upgrade matplotlib
+	$PIP install --no-cache-dir --no-binary :all: --upgrade matplotlib
 
 RUN \
 	$PIP install --no-cache-dir --upgrade "gdal==$(gdal-config --version)" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
@@ -74,10 +75,10 @@ RUN \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
 
 RUN \
-	$PIP install --no-cache-dir --upgrade "git+https://github.com/jswhit/pyproj.git" "git+https://github.com/mapbox/rasterio@0.36.0" descartes Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov ilock progressbar2 boto3 motionless versioneer
+	$PIP install --no-cache-dir --upgrade --no-binary :all: "git+https://github.com/jswhit/pyproj.git" "git+https://github.com/mapbox/rasterio@0.36.0" descartes Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov ilock progressbar2 boto3 motionless versioneer
 
 RUN \
-	$PIP install --no-cache-dir --upgrade git+https://github.com/fmaussion/salem.git@ce6482bb0125f3236078ddd29946126f278cf686
+	$PIP install --no-cache-dir --upgrade --no-binary :all: git+https://github.com/fmaussion/salem.git@ce6482bb0125f3236078ddd29946126f278cf686
 
 RUN \
 	sed -i 's/^backend.*/backend : Agg/' /usr/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc && \
