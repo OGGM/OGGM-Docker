@@ -59,7 +59,8 @@ RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: git+https://github.com/fmaussion/salem.git@ce6482bb0125f3236078ddd29946126f278cf686
 
 RUN \
-	sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.6/dist-packages/matplotlib/mpl-data/matplotlibrc
+	sed -i 's/^backend.*/backend : Agg/' /usr/local/lib/python3.6/dist-packages/matplotlib/mpl-data/matplotlibrc && \
+	rm -f /usr/bin/pip && ln -s pip3 /usr/bin/pip
 
 RUN python3 -c "import matplotlib.font_manager, salem"
 
