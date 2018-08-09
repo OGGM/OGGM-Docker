@@ -75,7 +75,7 @@ RUN \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="--include-dirs=/usr/include/gdal"
 
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: "git+https://github.com/jswhit/pyproj.git" "git+https://github.com/mapbox/rasterio@0.36.0" descartes Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-mpl pytest-cov ilock progressbar2 boto3 motionless versioneer requests
+	$PIP install --no-cache-dir --upgrade --no-binary :all: "git+https://github.com/jswhit/pyproj.git" "git+https://github.com/mapbox/rasterio@0.36.0" descartes Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-cov "git+https://github.com/matplotlib/pytest-mpl" ilock progressbar2 boto3 motionless versioneer requests
 
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: git+https://github.com/fmaussion/salem.git@ce6482bb0125f3236078ddd29946126f278cf686
