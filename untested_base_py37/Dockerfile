@@ -3,7 +3,7 @@
 # with OGGM installed, based on Ubuntu 18.04.
 ###################################################
 
-FROM oggm/python37:latest
+FROM oggm/raw_system:py37
 MAINTAINER Timo Rothenpieler
 
 RUN \
