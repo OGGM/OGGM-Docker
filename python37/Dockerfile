@@ -48,8 +48,8 @@ ENV LANG en_US.UTF-8
 
 RUN \
 	mkdir /tmp/buildpy37 && cd /tmp/buildpy37 && \
-	curl https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tar.xz -o Python-3.7.0.tar.xz && \
-	tar xaf Python-3.7.0.tar.xz && cd Python-3.7.0 && \
+	curl https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tar.xz -o Python-3.7.1.tar.xz && \
+	tar xaf Python-3.7.1.tar.xz && cd Python-3.7.1 && \
 	./configure --prefix=/usr --with-ensurepip=upgrade --enable-shared && \
 	make -j4 && make altinstall && \
 	cd - && rm -rf /tmp/* /var/tmp/*
