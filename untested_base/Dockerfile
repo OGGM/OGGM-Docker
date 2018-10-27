@@ -13,7 +13,7 @@ RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely
 
 RUN \
-	$PIP install --no-cache-dir --no-binary :all: --upgrade "git+https://github.com/matplotlib/matplotlib.git@v3.0.x"
+	$PIP install --no-cache-dir --no-binary :all: --upgrade matplotlib
 
 RUN \
 	$PIP install --no-cache-dir --upgrade "gdal==$(gdal-config --version)" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
