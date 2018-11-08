@@ -26,6 +26,7 @@ RUN apt-get -y update && apt-get -y install \
 	python3-dev \
 	python3 \
 	python3-pip \
+	python3-venv \
 	locales && \
 	apt-get -y clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
