@@ -32,4 +32,6 @@ RUN \
 
 RUN python3 -c "import matplotlib.font_manager, salem"
 
+RUN mkdir /work
+
 ADD test.sh /root/test.sh
