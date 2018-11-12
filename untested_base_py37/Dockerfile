@@ -25,7 +25,7 @@ RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: "git+https://github.com/jswhit/pyproj.git" "rasterio>=1.0.0" descartes Pillow geopandas netcdf4 scikit-image configobj joblib "xarray<0.11.0" cartopy nose filelock pytest pytest-cov "git+https://github.com/OGGM/pytest-mpl" ilock progressbar2 boto3 motionless versioneer requests
 
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: git+https://github.com/fmaussion/salem.git@e8e441bfb49d5a7e2a68d3fcdad88b9e9305975c
+	$PIP install --no-cache-dir --upgrade --no-binary :all: git+https://github.com/fmaussion/salem.git
 
 RUN \
 	sed -i 's/^backend.*/backend : Agg/' /usr/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc
