@@ -8,7 +8,7 @@ MAINTAINER Timo Rothenpieler
 
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: cython && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: "numpy<1.15.4" && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: "numpy<1.16" && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely
 
@@ -22,7 +22,7 @@ RUN \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: "git+https://github.com/jswhit/pyproj.git" "rasterio>=1.0.0" descartes Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-cov "git+https://github.com/OGGM/pytest-mpl" ilock progressbar2 boto3 motionless versioneer requests
+	$PIP install --no-cache-dir --upgrade --no-binary :all: "git+https://github.com/jswhit/pyproj.git" "rasterio>=1.0.0" descartes Pillow geopandas netcdf4 scikit-image configobj joblib xarray cartopy nose filelock pytest pytest-cov "git+https://github.com/OGGM/pytest-mpl" ilock progressbar2 boto3 motionless versioneer requests tifffile
 
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: git+https://github.com/fmaussion/salem.git
