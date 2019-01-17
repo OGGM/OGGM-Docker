@@ -38,4 +38,15 @@ ENV PIP pip3
 RUN rm -f /usr/bin/pip && ln -s pip3 /usr/bin/pip
 
 RUN \
+	echo "[build_ext]" >> $HOME/.pydistutils.cfg && \
+	echo "force=1" >> $HOME/.pydistutils.cfg
+
+RUN \
 	$PIP install --no-cache-dir --upgrade pip setuptools
+
+RUN \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: cython six && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: matplotlib

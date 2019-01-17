@@ -7,17 +7,6 @@ FROM oggm/raw_system:py37
 MAINTAINER Timo Rothenpieler
 
 RUN \
-	echo "[build_ext]" >> $HOME/.pydistutils.cfg && \
-	echo "force=1" >> $HOME/.pydistutils.cfg
-
-RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: cython six && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: matplotlib
-
-RUN \
 	$PIP install --no-cache-dir --upgrade "gdal==$(gdal-config --version)" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
 RUN \
