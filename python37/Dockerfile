@@ -56,7 +56,12 @@ RUN \
 
 ENV PIP pip3.7
 
-RUN rm -f /usr/bin/pip /usr/bin/python3 /usr/bin/python3m && ln -s python3.7 /usr/bin/python3 && ln -s python3.7m /usr/bin/python3m && ln -s pip3.7 /usr/bin/pip
+RUN \
+	rm -f /usr/bin/pip /usr/bin/pip3 /usr/bin/python3 /usr/bin/python3m && \
+	ln -s python3.7 /usr/bin/python3 && \
+	ln -s python3.7m /usr/bin/python3m && \
+	ln -s pip3.7 /usr/bin/pip && \
+	ln -s pip3.7 /usr/bin/pip3
 
 RUN \
 	echo "[build_ext]" >> $HOME/.pydistutils.cfg && \
