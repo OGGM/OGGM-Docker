@@ -68,7 +68,7 @@ RUN \
 	echo "force=1" >> $HOME/.pydistutils.cfg
 
 RUN \
-	$PIP install --no-cache-dir --upgrade pip setuptools
+	$PIP install --no-cache-dir --upgrade "pip<19" setuptools wheel
 
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
