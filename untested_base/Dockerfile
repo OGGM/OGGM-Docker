@@ -15,9 +15,10 @@ RUN \
 # Revert from installing geopandas(0.4.0) them from git with their next respective release!
 # Revert from installing xarray(0.11.3) from git with their next respective release!
 # netcdf4 1.4.3.1 seems to have broken something, try next release again.
+# pyproj>=2.0 needs libproj>=6.0.0, which is not packaged anywhere yet.
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: \
-		pyproj \
+		"pyproj<2" \
 		"rasterio>=1.0.0" \
 		descartes \
 		Pillow \
