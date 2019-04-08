@@ -1,6 +1,6 @@
 ###################################################
 # Dockerfile to build a Python 3.7 environment
-# with OGGM installed, based on Ubuntu 18.04.
+# with OGGM installed, based on Ubuntu 19.04.
 ###################################################
 
 FROM oggm/raw_system:py37
@@ -44,7 +44,7 @@ RUN \
 		"git+https://github.com/fmaussion/salem.git"
 
 RUN \
-	sed -i 's/^backend.*/backend : Agg/' /usr/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc
+	sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc
 
 RUN python3 -c "import matplotlib.font_manager, salem"
 
