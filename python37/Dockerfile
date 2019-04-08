@@ -61,7 +61,7 @@ RUN \
 ENV PIP pip
 
 RUN \
-	$PIP install --no-cache-dir --upgrade pip setuptools wheel
+	$PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
 
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
