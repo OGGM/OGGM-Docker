@@ -6,43 +6,62 @@
 FROM ubuntu:18.04
 MAINTAINER Timo Rothenpieler
 
-ENV DEBIAN_FRONTEND noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get -y update && apt-get -y install \
-	gfortran \
-	fontconfig \
-	fonts-dejavu \
-	git \
-	build-essential \
-	liblapack-dev \
-	libproj-dev \
-	libfreetype6-dev \
-	gdal-bin \
-	libgdal-dev \
-	libagg-dev \
-	liblapack-dev \
-	netcdf-bin \
-	libnetcdf-dev \
-	python3-dev \
-	python3 \
-	python3-pip \
-	python3-venv \
-	locales && \
+RUN \
+	apt-get -y update && \
+	apt-get -y install \
+		gfortran \
+		fontconfig \
+		fonts-dejavu \
+		git \
+		build-essential \
+		liblapack-dev \
+		libproj-dev \
+		libfreetype6-dev \
+		gdal-bin \
+		libgdal-dev \
+		libagg-dev \
+		liblapack-dev \
+		netcdf-bin \
+		libnetcdf-dev \
+		libssl-dev \
+		libffi-dev \
+		blt-dev \
+		libdb-dev \
+		libreadline-dev \
+		libncursesw5-dev \
+		zlib1g-dev \
+		libbz2-dev \
+		liblzma-dev \
+		libsqlite3-dev \
+		libgdbm-dev \
+		libmpdec-dev \
+		libexpat1-dev \
+		curl \
+		locales && \
 	apt-get -y clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
-ENV PIP pip3
 
-RUN rm -f /usr/bin/pip && ln -s pip3 /usr/bin/pip
+ENV PYENV_ROOT /usr/local/pyenv
+RUN \
+	git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
+	rm -rf $PYENV_ROOT/.git
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
-	echo "[build_ext]" >> $HOME/.pydistutils.cfg && \
-	echo "force=1" >> $HOME/.pydistutils.cfg
+	DO_PYVER=3.6.8 && \
+	pyenv install $DO_PYVER && \
+	pyenv global $DO_PYVER && \
+	pyenv rehash
+
+ENV PIP pip
 
 RUN \
-	$PIP install --no-cache-dir --upgrade pip setuptools wheel
+	$PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
 
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
