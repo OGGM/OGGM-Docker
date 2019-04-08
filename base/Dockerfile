@@ -4,4 +4,3 @@
 ###################################################
 
 FROM oggm/untested_base:latest
-MAINTAINER Timo Rothenpieler

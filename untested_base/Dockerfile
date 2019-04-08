@@ -4,7 +4,6 @@
 ###################################################
 
 FROM oggm/raw_system:latest
-MAINTAINER Timo Rothenpieler
 
 RUN \
 	$PIP install --no-cache-dir --upgrade "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"

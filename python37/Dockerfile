@@ -4,7 +4,6 @@
 ###################################################
 
 FROM ubuntu:19.04
-MAINTAINER Timo Rothenpieler
 
 ARG DEBIAN_FRONTEND=noninteractive
 

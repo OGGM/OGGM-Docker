@@ -4,7 +4,6 @@
 ###################################################
 
 FROM oggm/oggm:latest
-MAINTAINER Timo Rothenpieler
 
 RUN pip3 install --no-cache-dir jupyter pyzmq
 
