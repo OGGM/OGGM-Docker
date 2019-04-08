@@ -1,12 +1,12 @@
 ###################################################
 # Dockerfile to build a Python 3.7 environment
-# based on Ubuntu 18.04.
+# based on Ubuntu 19.04.
 ###################################################
 
-FROM ubuntu:18.04
+FROM ubuntu:19.04
 MAINTAINER Timo Rothenpieler
 
-ENV DEBIAN_FRONTEND noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN \
 	apt-get -y update && \
@@ -46,26 +46,19 @@ RUN \
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
+ENV PYENV_ROOT /usr/local/pyenv
 RUN \
-	mkdir /tmp/buildpy37 && cd /tmp/buildpy37 && \
-	curl https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tar.xz -o Python-3.7.2.tar.xz && \
-	tar xaf Python-3.7.2.tar.xz && cd Python-3.7.2 && \
-	./configure --prefix=/usr --with-ensurepip=upgrade --enable-shared && \
-	make -j4 && make altinstall && \
-	cd - && rm -rf /tmp/* /var/tmp/*
-
-ENV PIP pip3.7
+	git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
+	rm -rf $PYENV_ROOT/.git
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
-	rm -f /usr/bin/pip /usr/bin/pip3 /usr/bin/python3 /usr/bin/python3m && \
-	ln -s python3.7 /usr/bin/python3 && \
-	ln -s python3.7m /usr/bin/python3m && \
-	ln -s pip3.7 /usr/bin/pip && \
-	ln -s pip3.7 /usr/bin/pip3
+	DO_PYVER=3.7.3 && \
+	pyenv install $DO_PYVER && \
+	pyenv global $DO_PYVER && \
+	pyenv rehash
 
-RUN \
-	echo "[build_ext]" >> $HOME/.pydistutils.cfg && \
-	echo "force=1" >> $HOME/.pydistutils.cfg
+ENV PIP pip
 
 RUN \
 	$PIP install --no-cache-dir --upgrade pip setuptools wheel
