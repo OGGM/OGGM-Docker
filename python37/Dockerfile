@@ -16,7 +16,6 @@ RUN \
 		git \
 		build-essential \
 		liblapack-dev \
-		libproj-dev \
 		libfreetype6-dev \
 		gdal-bin \
 		libgdal-dev \
