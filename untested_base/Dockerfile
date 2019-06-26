@@ -15,7 +15,7 @@ RUN \
 # Remove urllib3 limit whenever aws/botocore fixes its stuff.
 RUN \
 	$PIP install --no-cache-dir --upgrade \
-		"pyproj<2"
+		pyproj
 
 # Packages to force local build:
 RUN \
