@@ -28,6 +28,8 @@ RUN \
 		scikit-image \
 		configobj \
 		joblib \
+		dask \
+		distributed \
 		xarray \
 		cartopy \
 		nose \
