@@ -51,7 +51,7 @@ RUN \
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
-	DO_PYVER=3.6.8 && \
+	DO_PYVER=3.6.9 && \
 	pyenv install $DO_PYVER && \
 	pyenv global $DO_PYVER && \
 	pyenv rehash
