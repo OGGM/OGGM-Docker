@@ -66,4 +66,4 @@ RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: cython six && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: matplotlib
+	$PIP install --no-cache-dir --upgrade --no-binary :all: "matplotlib>=3.0.0,!=3.1.0*,!=3.1.0,!=3.1.1"
