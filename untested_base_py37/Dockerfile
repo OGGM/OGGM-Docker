@@ -12,10 +12,10 @@ RUN \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
 # Packages to install from binary wheels:
-# Remove urllib3 limit whenever aws/botocore fixes its stuff.
+# Pin to older pyproj until they fix the weird concurrency issues in v2.3.
 RUN \
 	$PIP install --no-cache-dir --upgrade \
-		pyproj
+		"pyproj<2.3"
 
 # Packages to force local build:
 RUN \
