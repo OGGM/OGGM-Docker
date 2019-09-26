@@ -62,7 +62,7 @@ RUN \
 	$PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
 
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: "numpy<1.17" && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: cython six && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
