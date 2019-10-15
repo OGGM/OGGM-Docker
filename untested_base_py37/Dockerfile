@@ -1,6 +1,6 @@
 ###################################################
 # Dockerfile to build a Python 3.7 environment
-# with OGGM installed, based on Ubuntu 19.04.
+# with OGGM installed, based on Ubuntu 19.10.
 ###################################################
 
 FROM oggm/raw_system:py37 as builder
@@ -48,7 +48,7 @@ RUN \
 	sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc
 
 
-FROM ubuntu:19.04
+FROM ubuntu:19.10
 
 ARG DEBIAN_FRONTEND=noninteractive
 

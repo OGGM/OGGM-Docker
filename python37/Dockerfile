@@ -1,9 +1,9 @@
 ###################################################
 # Dockerfile to build a Python 3.7 environment
-# based on Ubuntu 19.04.
+# based on Ubuntu 19.10.
 ###################################################
 
-FROM ubuntu:19.04
+FROM ubuntu:19.10
 
 ARG DEBIAN_FRONTEND=noninteractive
 
