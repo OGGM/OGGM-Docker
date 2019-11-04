@@ -12,10 +12,10 @@ RUN \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
 RUN \
-	PROJ_VERSION="6.2.0" && \
+	PROJ_VERSION="6.2.1" && \
 	curl "https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz" -o proj.tar.gz && \
 	tar xaf proj.tar.gz && \
-	for f in 1.8 europe-1.4; do \
+	for f in 1.8 europe-1.4 north-america-1.2; do \
 		curl "https://download.osgeo.org/proj/proj-datumgrid-${f}.zip" -o proj-datumgrid.zip && \
 		unzip -o proj-datumgrid.zip -d "proj-${PROJ_VERSION}/data"; \
 	done && \
