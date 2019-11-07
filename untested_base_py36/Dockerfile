@@ -17,6 +17,7 @@ RUN \
 		pyproj
 
 # Packages to force local build:
+# Revert to stable xarray once 0.14.1 is out.
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: \
 		"rasterio>=1.0.0" \
@@ -29,7 +30,7 @@ RUN \
 		joblib \
 		dask \
 		distributed \
-		xarray \
+		"git+https://github.com/pydata/xarray.git@4dce93f134e8296ea730104b46ce3372b90304ac" \
 		cartopy \
 		nose \
 		filelock \
