@@ -1,0 +1,89 @@
+on: [push]
+
+jobs:
+  build-py37:
+    runs-on: ubuntu-latest
+    name: Build Python 3.7 Images
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build raw_system:py37
+      id: raw-system-py37
+      uses: ./.github/actions/docker-build-and-push
+      with:
+        user: ${{ secrets.DockerhubUser }}
+        pass: ${{ secrets.DockerhubPass }}
+        name: oggm/raw_system
+        tags: py37,latest
+        path: ./python37/
+        force_pull: true
+    - name: Build untested_base:py37
+      id: untested-base-py37
+      uses: ./.github/actions/docker-build-and-push
+      with:
+        path: ./untested_base_py37/
+        name: oggm/untested_base
+        tags: py37,latest
+        date_tag: true
+    - name: Build base:py37
+      id: base-py37
+      uses: ./.github/actions/docker-build-and-push
+      with:
+        path: ./base/
+        name: oggm/base
+        no_push: true
+        tmp_tag: 'base:test'
+    - name: Test base:py37
+      id: test-base-py37
+      run: docker run --rm base:test /root/test.sh
+    - name: Push base:py37
+      id: push-base-py37
+      uses: ./.github/actions/docker-build-and-push
+      with:
+        path: ./base/
+        name: oggm/base
+        no_cache: false
+        date_tag: true
+  build-py36:
+    runs-on: ubuntu-latest
+    name: Build Python 3.6 Images
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build raw_system:py36
+      id: raw-system-py36
+      uses: ./.github/actions/docker-build-and-push
+      with:
+        user: ${{ secrets.DockerhubUser }}
+        pass: ${{ secrets.DockerhubPass }}
+        name: oggm/raw_system
+        tags: py36
+        path: ./python36/
+        force_pull: true
+    - name: Build untested_base:py36
+      id: untested-base-py36
+      uses: ./.github/actions/docker-build-and-push
+      with:
+        path: ./untested_base_py36/
+        name: oggm/untested_base
+        tags: py36
+  build-py38:
+    runs-on: ubuntu-latest
+    name: Build Python 3.8 Images
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build raw_system:py38
+      id: raw-system-py38
+      uses: ./.github/actions/docker-build-and-push
+      with:
+        user: ${{ secrets.DockerhubUser }}
+        pass: ${{ secrets.DockerhubPass }}
+        name: oggm/raw_system
+        tags: py38
+        path: ./python38/
+        force_pull: true
+    - name: Build untested_base:py38
+      id: untested-base-py38
+      uses: ./.github/actions/docker-build-and-push
+      with:
+        path: ./untested_base_py38/
+        name: oggm/untested_base
+        tags: py38

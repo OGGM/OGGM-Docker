@@ -1,0 +1,28 @@
+name: 'Build and push Docker Action'
+description: 'Build and push a docker image'
+inputs:
+  user:
+    default: ''
+  pass:
+    default: ''
+  path:
+    required: true
+  name:
+    required: true
+  tags:
+    default: 'latest'
+  date_tag:
+    default: false
+  commit_tag:
+    default: false
+  force_pull:
+    default: false
+  no_cache:
+    default: true
+  no_push:
+    default: false
+  tmp_tag:
+    default: 'tmp-build-tag:latest'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
