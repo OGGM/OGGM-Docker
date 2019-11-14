@@ -1,4 +1,9 @@
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 4 * * 0'
 
 jobs:
   build-py37:
