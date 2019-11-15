@@ -61,20 +61,13 @@ jobs:
     name: Build Python 3.8 Images
     steps:
     - uses: actions/checkout@v1
-    - name: Build raw_system:py38
-      id: raw-system-py38
-      uses: ./.github/actions/docker-build-and-push
-      with:
-        user: ${{ secrets.DockerhubUser }}
-        pass: ${{ secrets.DockerhubPass }}
-        name: oggm/raw_system
-        tags: py38
-        path: ./python38/
-        force_pull: true
     - name: Build untested_base:py38
       id: untested-base-py38
       uses: ./.github/actions/docker-build-and-push
       with:
+        user: ${{ secrets.DockerhubUser }}
+        pass: ${{ secrets.DockerhubPass }}
         path: ./untested_base_py38/
         name: oggm/untested_base
         tags: py38
+        force_pull: true

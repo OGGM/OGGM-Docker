@@ -3,13 +3,48 @@
 # with OGGM installed, based on Ubuntu 19.10.
 ###################################################
 
-FROM oggm/raw_system:py38 as builder
+FROM ubuntu:19.10 as builder
+
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN \
-	$PIP install --no-cache-dir --upgrade "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
+	apt-get -y update && \
+	apt-get -y install \
+		gfortran \
+		fontconfig \
+		fonts-dejavu \
+		git \
+		build-essential \
+		liblapack-dev \
+		libfreetype6-dev \
+		gdal-bin \
+		libgdal-dev \
+		libagg-dev \
+		liblapack-dev \
+		netcdf-bin \
+		libnetcdf-dev \
+		libssl-dev \
+		libffi-dev \
+		blt-dev \
+		libdb-dev \
+		libreadline-dev \
+		libncursesw5-dev \
+		zlib1g-dev \
+		libbz2-dev \
+		liblzma-dev \
+		libsqlite3-dev \
+		libgdbm-dev \
+		libmpdec-dev \
+		libexpat1-dev \
+		sqlite3 \
+		curl \
+		unzip \
+		locales && \
+	apt-get -y clean && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN \
-	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
 
 RUN \
 	PROJ_VERSION="6.2.1" && \
@@ -29,6 +64,35 @@ RUN \
 	ldconfig
 ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
 ENV PATH $PROJ_DIR/bin:$PATH
+
+ENV PYENV_ROOT /usr/local/pyenv
+RUN \
+	git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
+	rm -rf $PYENV_ROOT/.git
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+
+RUN \
+	DO_PYVER=3.8.0 && \
+	pyenv install $DO_PYVER && \
+	pyenv global $DO_PYVER && \
+	pyenv rehash
+
+ENV PIP pip
+
+RUN \
+	$PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
+
+# Special-Case packages that have a specific build order and/or special parameters
+# Revert to stable numpy once np.clip performance regressions are fixed.
+RUN \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: "numpy<1.17" && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: cython six && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: "matplotlib>=3.0.0,!=3.1.0*,!=3.1.0,!=3.1.1"
+RUN \
+	$PIP install --no-cache-dir --upgrade "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')" && \
+	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
 # Latest Cartopy release is not compatible with recent proj versions. Use git snapshot until new release.
 RUN \
