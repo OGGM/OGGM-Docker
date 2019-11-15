@@ -46,23 +46,16 @@ jobs:
     name: Build Python 3.6 Images
     steps:
     - uses: actions/checkout@v1
-    - name: Build raw_system:py36
-      id: raw-system-py36
-      uses: ./.github/actions/docker-build-and-push
-      with:
-        user: ${{ secrets.DockerhubUser }}
-        pass: ${{ secrets.DockerhubPass }}
-        name: oggm/raw_system
-        tags: py36
-        path: ./python36/
-        force_pull: true
     - name: Build untested_base:py36
       id: untested-base-py36
       uses: ./.github/actions/docker-build-and-push
       with:
+        user: ${{ secrets.DockerhubUser }}
+        pass: ${{ secrets.DockerhubPass }}
         path: ./untested_base_py36/
         name: oggm/untested_base
         tags: py36
+        force_pull: true
   build-py38:
     runs-on: ubuntu-latest
     name: Build Python 3.8 Images
