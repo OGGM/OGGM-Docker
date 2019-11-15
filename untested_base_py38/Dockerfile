@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN \
 	apt-get -y update && \
-	apt-get -y install \
+	apt-get -y install --no-install-recommends \
 		gfortran \
 		fontconfig \
 		fonts-dejavu \
@@ -38,6 +38,7 @@ RUN \
 		libexpat1-dev \
 		sqlite3 \
 		curl \
+		ca-certificates \
 		unzip \
 		locales && \
 	apt-get -y clean && \

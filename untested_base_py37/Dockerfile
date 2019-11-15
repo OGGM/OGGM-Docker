@@ -10,7 +10,7 @@ ARG DO_PYVER=3.7.5
 
 RUN \
 	apt-get -y update && \
-	apt-get -y install \
+	apt-get -y install --no-install-recommends \
 		gfortran \
 		fontconfig \
 		fonts-dejavu \
@@ -38,6 +38,7 @@ RUN \
 		libmpdec-dev \
 		libexpat1-dev \
 		curl \
+		ca-certificates \
 		locales && \
 	apt-get -y clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
