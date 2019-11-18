@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build untested_base:py37
       id: untested-base-py37
-      uses: ./.github/actions/docker-build-and-push
+      uses: OGGM/docker-build-and-push-action@v1
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
@@ -24,7 +24,7 @@ jobs:
         force_pull: true
     - name: Build base:py37
       id: base-py37
-      uses: ./.github/actions/docker-build-and-push
+      uses: OGGM/docker-build-and-push-action@v1
       with:
         path: ./base/
         name: oggm/base
@@ -35,7 +35,7 @@ jobs:
       run: docker run --rm base:test /root/test.sh
     - name: Push base:py37
       id: push-base-py37
-      uses: ./.github/actions/docker-build-and-push
+      uses: OGGM/docker-build-and-push-action@v1
       with:
         path: ./base/
         name: oggm/base
@@ -48,7 +48,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build untested_base:py36
       id: untested-base-py36
-      uses: ./.github/actions/docker-build-and-push
+      uses: OGGM/docker-build-and-push-action@v1
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
@@ -63,7 +63,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build untested_base:py38
       id: untested-base-py38
-      uses: ./.github/actions/docker-build-and-push
+      uses: OGGM/docker-build-and-push-action@v1
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
