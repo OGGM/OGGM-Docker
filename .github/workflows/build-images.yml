@@ -41,6 +41,14 @@ jobs:
         name: oggm/base
         no_cache: false
         date_tag: true
+    - name: Trigger OGGM
+      id: trigger-oggm
+      uses: OGGM/repo-dispatch-action@v1
+      with:
+        repo: OGGM/oggm
+        auth_user: ${{ secrets.DispatchUser }}
+        auth_secret: ${{ secrets.DispatchSecret }}
+        action: build-docker-image
   build-py36:
     runs-on: ubuntu-latest
     name: Build Python 3.6 Images
