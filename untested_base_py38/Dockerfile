@@ -90,7 +90,7 @@ RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: cython six && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: "matplotlib>=3.0.0,!=3.1.0*,!=3.1.0,!=3.1.1"
+	$PIP install --no-cache-dir --upgrade --no-binary :all: "matplotlib>=3.1.2"
 RUN \
 	$PIP install --no-cache-dir --upgrade "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')" && \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
@@ -101,7 +101,6 @@ RUN \
 		pyproj \
 		"git+https://github.com/SciTools/cartopy.git@23e31ddecd28189cf8f91a6631a860dc80090f17"
 
-# Revert to stable xarray once 0.14.1 is out.
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: \
 		"rasterio>=1.0.0" \
@@ -114,7 +113,7 @@ RUN \
 		joblib \
 		dask \
 		distributed \
-		"git+https://github.com/pydata/xarray.git@4dce93f134e8296ea730104b46ce3372b90304ac" \
+		"xarray>=0.14.1" \
 		nose \
 		filelock \
 		pytest \
