@@ -66,7 +66,7 @@ RUN \
 # Revert to stable numpy once np.clip performance regressions are fixed.
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: "numpy<1.17" && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: cython six && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: cython pybind11 six && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: "matplotlib>=3.1.2"
