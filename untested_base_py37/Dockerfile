@@ -37,6 +37,7 @@ RUN \
 		libgdbm-dev \
 		libmpdec-dev \
 		libexpat1-dev \
+		libblosc-dev \
 		curl \
 		ca-certificates \
 		locales && \
@@ -128,6 +129,7 @@ RUN \
 		libexpat1 \
 		libbz2-1.0 \
 		liblzma5 \
+		libblosc1 \
 		curl \
 		git \
 		locales \

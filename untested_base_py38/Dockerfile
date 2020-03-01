@@ -36,6 +36,7 @@ RUN \
 		libgdbm-dev \
 		libmpdec-dev \
 		libexpat1-dev \
+		libblosc-dev \
 		sqlite3 \
 		curl \
 		ca-certificates \
@@ -149,6 +150,7 @@ RUN \
 		libexpat1 \
 		libbz2-1.0 \
 		liblzma5 \
+		libblosc1 \
 		sqlite3 \
 		curl \
 		git \
