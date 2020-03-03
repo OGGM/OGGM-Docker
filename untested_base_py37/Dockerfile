@@ -38,6 +38,7 @@ RUN \
 		libmpdec-dev \
 		libexpat1-dev \
 		libblosc-dev \
+		libbrotli-dev \
 		curl \
 		ca-certificates \
 		locales && \
@@ -130,6 +131,7 @@ RUN \
 		libbz2-1.0 \
 		liblzma5 \
 		libblosc1 \
+		libbrotli1 \
 		curl \
 		git \
 		locales \
