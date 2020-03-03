@@ -38,6 +38,11 @@ RUN \
 		libexpat1-dev \
 		libblosc-dev \
 		libbrotli-dev \
+		liblcms2-dev \
+		libjxr-dev \
+		liblz4-dev \
+		libsnappy-dev \
+		libzopfli-dev \
 		sqlite3 \
 		curl \
 		ca-certificates \
@@ -153,6 +158,11 @@ RUN \
 		liblzma5 \
 		libblosc1 \
 		libbrotli1 \
+		liblcms2-2 \
+		libjxr0 \
+		liblz4-1 \
+		libsnappy1v5 \
+		libzopfli1 \
 		sqlite3 \
 		curl \
 		git \

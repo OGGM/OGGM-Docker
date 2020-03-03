@@ -38,6 +38,11 @@ RUN \
 		libexpat1-dev \
 		libblosc-dev \
 		libbrotli-dev \
+		liblcms2-dev \
+		libjxr-dev \
+		liblz4-dev \
+		libsnappy-dev \
+		libzopfli-dev \
 		curl \
 		ca-certificates \
 		locales && \
@@ -131,6 +136,11 @@ RUN \
 		libbz2-1.0 \
 		libblosc1 \
 		libbrotli1 \
+		liblcms2-2 \
+		libjxr0 \
+		liblz4-1 \
+		libsnappy1v5 \
+		libzopfli1 \
 		liblzma5 \
 		curl \
 		git \
