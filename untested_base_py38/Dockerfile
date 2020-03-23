@@ -6,6 +6,7 @@
 FROM ubuntu:19.10 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG DO_PYVER=3.8.2
 
 RUN \
 	apt-get -y update && \
@@ -80,7 +81,6 @@ RUN \
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
-	DO_PYVER=3.8.1 && \
 	pyenv install $DO_PYVER && \
 	pyenv global $DO_PYVER && \
 	pyenv rehash
