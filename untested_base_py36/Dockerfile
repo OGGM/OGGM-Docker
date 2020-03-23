@@ -88,6 +88,7 @@ RUN \
 		Pillow \
 		geopandas \
 		netCDF4 \
+		tables \
 		scikit-image \
 		configobj \
 		joblib \
