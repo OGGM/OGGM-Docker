@@ -56,10 +56,10 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 RUN \
-	PROJ_VERSION="6.2.1" && \
+	PROJ_VERSION="7.0.0" && \
 	curl "https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz" -o proj.tar.gz && \
 	tar xaf proj.tar.gz && \
-	for f in 1.8 europe-1.4 north-america-1.2; do \
+	for f in latest europe-latest north-america-latest; do \
 		curl "https://download.osgeo.org/proj/proj-datumgrid-${f}.zip" -o proj-datumgrid.zip && \
 		unzip -o proj-datumgrid.zip -d "proj-${PROJ_VERSION}/data"; \
 	done && \
