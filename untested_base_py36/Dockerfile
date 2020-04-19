@@ -130,6 +130,7 @@ RUN \
 		libexpat1 \
 		libbz2-1.0 \
 		liblzma5 \
+		libxcb1 \
 		curl \
 		git \
 		locales \

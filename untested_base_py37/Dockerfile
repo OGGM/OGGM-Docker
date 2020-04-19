@@ -143,6 +143,7 @@ RUN \
 		liblz4-1 \
 		libsnappy1v5 \
 		libzopfli1 \
+		libxcb1 \
 		curl \
 		git \
 		locales \
