@@ -1,9 +1,9 @@
 ###################################################
 # Dockerfile to build a Python 3.7 environment
-# with OGGM installed, based on Ubuntu 19.10.
+# with OGGM installed, based on Ubuntu 20.04.
 ###################################################
 
-FROM ubuntu:19.10 as builder
+FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DO_PYVER=3.7.7
@@ -15,6 +15,7 @@ RUN \
 		fontconfig \
 		fonts-dejavu \
 		git \
+		file \
 		build-essential \
 		liblapack-dev \
 		libfreetype6-dev \
@@ -69,9 +70,8 @@ ENV PIP pip
 RUN $PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
 
 # Special-Case packages that have a specific build order and/or special parameters
-# Revert to stable numpy once np.clip performance regressions are fixed.
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: "numpy<1.17" && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: cython pybind11 six && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \

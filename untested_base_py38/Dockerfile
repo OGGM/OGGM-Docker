@@ -1,12 +1,13 @@
 ###################################################
 # Dockerfile to build a Python 3.8 environment
-# with OGGM installed, based on Ubuntu 19.10.
+# with OGGM installed, based on Ubuntu 20.04.
 ###################################################
 
-FROM ubuntu:19.10 as builder
+FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DO_PYVER=3.8.2
+ARG PROJ_VERSION=7.0.1
 
 RUN \
 	apt-get -y update && \
@@ -15,6 +16,7 @@ RUN \
 		fontconfig \
 		fonts-dejavu \
 		git \
+		file \
 		build-essential \
 		liblapack-dev \
 		libfreetype6-dev \
@@ -56,14 +58,9 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 RUN \
-	PROJ_VERSION="7.0.0" && \
 	curl "https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz" -o proj.tar.gz && \
-	tar xaf proj.tar.gz && \
-	for f in latest europe-latest north-america-latest; do \
-		curl "https://download.osgeo.org/proj/proj-datumgrid-${f}.zip" -o proj-datumgrid.zip && \
-		unzip -o proj-datumgrid.zip -d "proj-${PROJ_VERSION}/data"; \
-	done && \
-	rm proj.tar.gz proj-datumgrid.zip && \
+	tar xavf proj.tar.gz && \
+	rm proj.tar.gz && \
 	cd "proj-${PROJ_VERSION}" && \
 	./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic && \
 	make -j2 && make install && \
@@ -71,8 +68,10 @@ RUN \
 	rm -rf "proj-${PROJ_VERSION}" && \
 	echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && \
 	ldconfig
-ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
-ENV PATH $PROJ_DIR/bin:$PATH
+ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig PATH="$PROJ_DIR/bin:$PATH"
+
+RUN \
+	projsync --system-directory --all --exclude-world-coverage
 
 ENV PYENV_ROOT /usr/local/pyenv
 RUN \
@@ -91,9 +90,8 @@ RUN \
 	$PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
 
 # Special-Case packages that have a specific build order and/or special parameters
-# Revert to stable numpy once np.clip performance regressions are fixed.
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: "numpy<1.17" && \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: cython pybind11 six && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
@@ -102,11 +100,9 @@ RUN \
 	$PIP install --no-cache-dir --upgrade "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')" && \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
-# Latest Cartopy release is not compatible with recent proj versions. Use git snapshot until new release.
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: \
-		pyproj \
-		"git+https://github.com/SciTools/cartopy.git@23e31ddecd28189cf8f91a6631a860dc80090f17"
+		pyproj
 
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: \
@@ -122,6 +118,7 @@ RUN \
 		dask \
 		distributed \
 		"xarray>=0.14.1" \
+		"cartopy>=0.18.0" \
 		nose \
 		filelock \
 		pytest \
@@ -139,7 +136,7 @@ RUN \
 	sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc
 
 
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
