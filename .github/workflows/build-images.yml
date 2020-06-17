@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Python 3.7 Images
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Build untested_base:py37
       id: untested-base-py37
       uses: OGGM/docker-build-and-push-action@v1
@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Python 3.6 Images
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Build untested_base:py36
       id: untested-base-py36
       uses: OGGM/docker-build-and-push-action@v1
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Python 3.8 Images
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Build untested_base:py38
       id: untested-base-py38
       uses: OGGM/docker-build-and-push-action@v1
