@@ -68,7 +68,8 @@ RUN \
 	rm -rf "proj-${PROJ_VERSION}" && \
 	echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && \
 	ldconfig
-ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig PATH="$PROJ_DIR/bin:$PATH"
+ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
+ENV PATH $PROJ_DIR/bin:$PATH
 
 RUN \
 	projsync --system-directory --all --exclude-world-coverage
