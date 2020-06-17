@@ -150,6 +150,7 @@ RUN \
 		libagg2 \
 		libdb5.3 \
 		libexpat1 \
+		libffi7 \
 		libbz2-1.0 \
 		liblzma5 \
 		libblosc1 \
