@@ -182,6 +182,7 @@ COPY --from=builder /usr/local/pyenv /usr/local/pyenv
 ENV PYENV_ROOT=/usr/local/pyenv PIP=pip
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
+RUN pyenv rehash
 RUN python3 -c "import matplotlib.font_manager, salem"
 
 RUN mkdir /work
