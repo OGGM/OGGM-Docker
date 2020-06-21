@@ -11,6 +11,10 @@ ARG PROJ_VERSION=7.0.1
 
 RUN \
 	apt-get -y update && \
+	apt-get -y install --no-install-recommends gnupg && \
+	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EFBEC70AD0CF795C0E0E89EC99DBB6A95CA08038 && \
+	echo "deb http://ppa.launchpad.net/btbn/netcdf/ubuntu focal main" >> /etc/apt/sources.list.d/netcdf.list && \
+	apt-get -y update && \
 	apt-get -y install --no-install-recommends \
 		gfortran \
 		fontconfig \
@@ -51,6 +55,8 @@ RUN \
 		ca-certificates \
 		unzip \
 		locales && \
+	apt-get -y purge gnupg && \
+	apt-get -y autoremove && \
 	apt-get -y clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -140,6 +146,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN \
 	apt-get -y update && \
+	apt-get -y install --no-install-recommends gnupg && \
+	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EFBEC70AD0CF795C0E0E89EC99DBB6A95CA08038 && \
+	echo "deb http://ppa.launchpad.net/btbn/netcdf/ubuntu focal main" >> /etc/apt/sources.list.d/netcdf.list && \
+	apt-get -y update && \
 	apt-get -y install --no-install-recommends \
 		fontconfig \
 		fonts-dejavu \
@@ -168,6 +178,8 @@ RUN \
 		less \
 		nano \
 		ca-certificates && \
+	apt-get -y purge gnupg && \
+	apt-get -y autoremove && \
 	apt-get -y clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
