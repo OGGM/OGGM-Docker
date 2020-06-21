@@ -118,7 +118,7 @@ RUN \
 	sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc
 
 
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
