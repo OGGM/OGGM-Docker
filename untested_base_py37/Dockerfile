@@ -75,6 +75,11 @@ ENV PIP pip
 
 RUN $PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
 
+# Matplotlib for some reason wants to bundle an ancient version of freetype
+# Create setup.cfg to stop it
+RUN printf '[libs]\nsystem_freetype = True\n' > /tmp/mpl_setup.cfg
+ENV MPLSETUPCFG /tmp/mpl_setup.cfg
+
 # Special-Case packages that have a specific build order and/or special parameters
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
