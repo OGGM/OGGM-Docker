@@ -6,7 +6,7 @@
 FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG DO_PYVER=3.7.7
+ARG DO_PYVER=3.7.8
 
 RUN \
 	apt-get -y update && \
