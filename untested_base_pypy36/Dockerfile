@@ -7,6 +7,7 @@ FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DO_PYVER=pypy3.6-7.3.1
+ARG PROJ_VERSION=7.1.1
 
 RUN \
 	apt-get -y update && \
@@ -63,9 +64,8 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 RUN \
-	PROJ_VERSION="7.0.1" && \
 	curl "https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz" -o proj.tar.gz && \
-	tar xaf proj.tar.gz && \
+	tar xavf proj.tar.gz && \
 	rm proj.tar.gz && \
 	cd "proj-${PROJ_VERSION}" && \
 	./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic && \
