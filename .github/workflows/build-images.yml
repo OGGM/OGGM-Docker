@@ -79,6 +79,21 @@ jobs:
         name: oggm/untested_base
         tags: py38
         force_pull: true
+  build-py39:
+    runs-on: ubuntu-latest
+    name: Build Python 3.9 Images
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build untested_base:py39
+      id: untested-base-py39
+      uses: OGGM/docker-build-and-push-action@v2
+      with:
+        user: ${{ secrets.DockerhubUser }}
+        pass: ${{ secrets.DockerhubPass }}
+        path: ./untested_base_py39/
+        name: oggm/untested_base
+        tags: py39
+        force_pull: true
   build-pypy36:
     runs-on: ubuntu-latest
     name: Build Pypy 3.6 Images
