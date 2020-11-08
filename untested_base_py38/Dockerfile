@@ -6,7 +6,7 @@
 FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG DO_PYVER=3.8.5
+ARG DO_PYVER=3.8.6
 ARG PROJ_VERSION=7.2.0
 
 RUN \
