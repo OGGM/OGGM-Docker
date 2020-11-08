@@ -7,7 +7,7 @@ FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DO_PYVER=3.9.0
-ARG PROJ_VERSION=7.1.1
+ARG PROJ_VERSION=7.2.0
 
 RUN \
 	apt-get -y update && \
