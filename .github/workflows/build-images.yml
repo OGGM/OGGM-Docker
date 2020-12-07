@@ -6,35 +6,35 @@ on:
     - cron: '0 4 * * 0'
 
 jobs:
-  build-py37:
+  build-py38:
     runs-on: ubuntu-latest
-    name: Build Python 3.7 Images
+    name: Build Python 3.8 Images
     steps:
     - uses: actions/checkout@v2
-    - name: Build untested_base:py37
-      id: untested-base-py37
+    - name: Build untested_base:py38
+      id: untested-base-py38
       uses: OGGM/docker-build-and-push-action@v2
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base_py37/
+        path: ./untested_base_py38/
         name: oggm/untested_base
-        tags: py37,latest
+        tags: py38,latest
         date_tag: true
         force_pull: true
-    - name: Build base:py37
-      id: base-py37
+    - name: Build base:py38
+      id: base-py38
       uses: OGGM/docker-build-and-push-action@v2
       with:
         path: ./base/
         name: oggm/base
         no_push: true
         tmp_tag: 'base:test'
-    - name: Test base:py37
-      id: test-base-py37
+    - name: Test base:py38
+      id: test-base-py38
       run: docker run --rm base:test /root/test.sh
-    - name: Push base:py37
-      id: push-base-py37
+    - name: Push base:py38
+      id: push-base-py38
       uses: OGGM/docker-build-and-push-action@v2
       with:
         path: ./base/
@@ -64,20 +64,20 @@ jobs:
         name: oggm/untested_base
         tags: py36
         force_pull: true
-  build-py38:
+  build-py37:
     runs-on: ubuntu-latest
-    name: Build Python 3.8 Images
+    name: Build Python 3.7 Images
     steps:
     - uses: actions/checkout@v2
-    - name: Build untested_base:py38
-      id: untested-base-py38
+    - name: Build untested_base:py37
+      id: untested-base-py37
       uses: OGGM/docker-build-and-push-action@v2
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base_py38/
+        path: ./untested_base_py37/
         name: oggm/untested_base
-        tags: py38
+        tags: py37
         force_pull: true
   build-py39:
     runs-on: ubuntu-latest
