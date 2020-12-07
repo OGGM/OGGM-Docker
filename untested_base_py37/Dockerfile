@@ -1,5 +1,5 @@
 ###################################################
-# Dockerfile to build a Python 3.7 environment
+# Dockerfile to build a Python 3.8 environment
 # with OGGM installed, based on Ubuntu 20.04.
 ###################################################
 
@@ -7,6 +7,7 @@ FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DO_PYVER=3.7.9
+ARG PROJ_VERSION=7.2.0
 
 RUN \
 	apt-get -y update && \
@@ -49,8 +50,10 @@ RUN \
 		liblz4-dev \
 		libsnappy-dev \
 		libzopfli-dev \
+		sqlite3 \
 		curl \
 		ca-certificates \
+		unzip \
 		locales && \
 	apt-get -y purge gnupg && \
 	apt-get -y autoremove && \
@@ -59,6 +62,20 @@ RUN \
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
+
+RUN \
+	curl "https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz" -o proj.tar.gz && \
+	tar xavf proj.tar.gz && \
+	rm proj.tar.gz && \
+	cd "proj-${PROJ_VERSION}" && \
+	./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic && \
+	make -j2 && make install && \
+	cd .. && \
+	rm -rf "proj-${PROJ_VERSION}" && \
+	echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && \
+	ldconfig
+ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PROJ_NETWORK=ON PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
+ENV PATH $PROJ_DIR/bin:$PATH
 
 ENV PYENV_ROOT /usr/local/pyenv
 RUN \
@@ -73,7 +90,8 @@ RUN \
 
 ENV PIP pip
 
-RUN $PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
+RUN \
+	$PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
 
 # Matplotlib for some reason wants to bundle an ancient version of freetype
 # Create setup.cfg to stop it
@@ -91,12 +109,10 @@ RUN \
 	$PIP install --no-cache-dir --upgrade "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')" && \
 	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
-# Packages to install from binary wheels:
 RUN \
-	$PIP install --no-cache-dir --upgrade \
+	$PIP install --no-cache-dir --upgrade --no-binary :all: \
 		pyproj
 
-# Packages to force local build:
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: \
 		"rasterio>=1.0.0" \
@@ -111,7 +127,7 @@ RUN \
 		dask \
 		distributed \
 		"xarray>=0.14.1" \
-		cartopy \
+		"cartopy>=0.18.0" \
 		nose \
 		filelock \
 		pytest \
@@ -160,6 +176,7 @@ RUN \
 		libsnappy1v5 \
 		libzopfli1 \
 		libxcb1 \
+		sqlite3 \
 		curl \
 		git \
 		locales \
@@ -174,10 +191,14 @@ RUN \
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
+COPY --from=builder /opt/proj /opt/proj
+ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PROJ_NETWORK=ON
+ENV PATH $PROJ_DIR/bin:$PATH
+RUN echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && ldconfig
+
 COPY --from=builder /usr/local/pyenv /usr/local/pyenv
-ENV PYENV_ROOT /usr/local/pyenv
+ENV PYENV_ROOT=/usr/local/pyenv PIP=pip
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
-ENV PIP pip
 
 RUN pyenv rehash
 RUN python3 -c "import matplotlib.font_manager, salem"
