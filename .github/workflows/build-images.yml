@@ -17,7 +17,8 @@ jobs:
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base_py38/
+        path: ./untested_base/
+        build_args: PYTHON_VERSION=3.8
         name: oggm/untested_base
         tags: py38,latest
         date_tag: true
@@ -75,7 +76,8 @@ jobs:
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base_py37/
+        path: ./untested_base/
+        build_args: PYTHON_VERSION=3.7
         name: oggm/untested_base
         tags: py37
         force_pull: true
@@ -90,7 +92,8 @@ jobs:
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base_py39/
+        path: ./untested_base/
+        build_args: PYTHON_VERSION=3.9
         name: oggm/untested_base
         tags: py39
         force_pull: true
