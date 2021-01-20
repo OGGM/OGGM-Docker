@@ -6,8 +6,9 @@
 FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG DO_PYVER=3.8.7
+ARG PYTHON_VERSION=3
 ARG PROJ_VERSION=7.2.1
+ARG GDAL_VERSION=3.2.1
 
 RUN \
 	apt-get -y update && \
@@ -24,14 +25,24 @@ RUN \
 		build-essential \
 		liblapack-dev \
 		libfreetype6-dev \
-		gdal-bin \
-		libgdal-dev \
 		libagg-dev \
 		liblapack-dev \
 		netcdf-bin \
 		libnetcdf-dev \
 		libssl-dev \
 		libffi-dev \
+		libtiff-dev \
+		libpng-dev \
+		libhdf4-dev \
+		libhdf5-dev \
+		libqhull-dev \
+		libxml2-dev \
+		libgif-dev \
+		libjpeg-dev \
+		libopenjp2-7-dev \
+		libwebp-dev \
+		libjson-c-dev \
+		libgeos-dev \
 		blt-dev \
 		libdb-dev \
 		libreadline-dev \
@@ -69,7 +80,7 @@ RUN \
 	rm proj.tar.gz && \
 	cd "proj-${PROJ_VERSION}" && \
 	./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic && \
-	make -j2 && make install && \
+	make -j$(nproc) && make install && \
 	cd .. && \
 	rm -rf "proj-${PROJ_VERSION}" && \
 	echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && \
@@ -77,15 +88,29 @@ RUN \
 ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PROJ_NETWORK=ON PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
 ENV PATH $PROJ_DIR/bin:$PATH
 
+RUN \
+	curl "https://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.xz" -o gdal.tar.xz && \
+	tar xavf gdal.tar.xz && \
+	rm gdal.tar.xz && \
+	cd "gdal-${GDAL_VERSION}" && \
+	./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic --enable-lto --with-rename-internal-libgeotiff-symbols=yes \
+		--with-proj=/opt/proj \
+		--with-pcraster=internal --with-geotiff=internal \
+		--with-hdf5=yes --with-netcdf=yes --with-libtiff=yes --with-jpeg=yes --with-libz=yes --with-png=yes --with-gif=yes --with-geos=yes && \
+	make -j$(nproc) && make install && \
+	cd .. && \
+	rm -rf "gdal-${GDAL_VERSION}"
+
 ENV PYENV_ROOT /usr/local/pyenv
 RUN \
 	git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
-	rm -rf $PYENV_ROOT/.git
+	git clone --depth=1 https://github.com/momo-lab/pyenv-install-latest.git $PYENV_ROOT/plugins/pyenv-install-latest && \
+	rm -rf $PYENV_ROOT/.git $PYENV_ROOT/plugins/pyenv-install-latest/.git
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
-	pyenv install $DO_PYVER && \
-	pyenv global $DO_PYVER && \
+	pyenv install-latest $PYTHON_VERSION && \
+	pyenv global $(pyenv install-latest --print $PYTHON_VERSION) && \
 	pyenv rehash
 
 ENV PIP pip
@@ -160,7 +185,20 @@ RUN \
 		fonts-dejavu \
 		libfreetype6 \
 		netcdf-bin \
-		gdal-bin \
+		libtiff5 \
+		libpng16-16 \
+		libhdf4-0 \
+		libhdf5-103 \
+		libqhull7 \
+		libqhull-r7 \
+		libxml2 \
+		libgif7 \
+		libjpeg8 \
+		libjpeg-turbo8 \
+		libopenjp2-7 \
+		libwebp6 \
+		libjson-c4 \
+		libgeos-c1v5 \
 		liblapack3 \
 		libagg2 \
 		libdb5.3 \
