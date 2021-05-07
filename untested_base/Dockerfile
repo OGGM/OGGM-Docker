@@ -113,10 +113,11 @@ RUN \
 	pyenv global $(pyenv install-latest --print $PYTHON_VERSION) && \
 	pyenv rehash
 
-ENV PIP pip
-
 RUN \
-	$PIP install --no-cache-dir --upgrade pip setuptools wheel virtualenv
+	python -m pip install --no-cache-dir --upgrade pip setuptools wheel virtualenv && \
+	pyenv rehash
+
+ENV PIP pip
 
 # Matplotlib for some reason wants to bundle an ancient version of freetype
 # Create setup.cfg to stop it
@@ -167,7 +168,8 @@ RUN \
 		"git+https://github.com/fmaussion/salem.git"
 
 RUN \
-	sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc
+	sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc && \
+	pyenv rehash
 
 
 FROM ubuntu:20.04
