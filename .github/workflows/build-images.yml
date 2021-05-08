@@ -97,19 +97,3 @@ jobs:
         name: oggm/untested_base
         tags: py39
         force_pull: true
-  build-pyston:
-    runs-on: ubuntu-latest
-    name: Build Pyston Images
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build untested_base:pyston
-      id: untested-base-pyston
-      uses: OGGM/docker-build-and-push-action@v2
-      with:
-        user: ${{ secrets.DockerhubUser }}
-        pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base/
-        build_args: PYTHON_VERSION=pyston
-        name: oggm/untested_base
-        tags: pyston
-        force_pull: true
