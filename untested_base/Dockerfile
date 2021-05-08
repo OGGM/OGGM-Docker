@@ -174,9 +174,11 @@ RUN \
 
 FROM ubuntu:20.04
 
-ARG DEBIAN_FRONTEND=noninteractive
+COPY --from=builder /opt/proj /opt/proj
+COPY --from=builder /usr/local/pyenv /usr/local/pyenv
 
 RUN \
+	export DEBIAN_FRONTEND=noninteractive && \
 	apt-get -y update && \
 	apt-get -y install --no-install-recommends gnupg && \
 	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EFBEC70AD0CF795C0E0E89EC99DBB6A95CA08038 && \
@@ -226,23 +228,23 @@ RUN \
 	apt-get -y purge gnupg && \
 	apt-get -y autoremove && \
 	apt-get -y clean && \
-	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+	locale-gen en_US.UTF-8 && \
+	echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && \
+	ldconfig
 
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
+ENV \
+	PATH=/usr/local/pyenv/shims:/usr/local/pyenv/bin:/opt/proj/bin:$PATH \
+	PROJ_NETWORK=ON \
+	PROJ_DIR=/opt/proj \
+	PROJ_LIB=/opt/proj/share/proj \
+	PYENV_ROOT=/usr/local/pyenv \
+	PIP=pip \
+	LANG=en_US.UTF-8
 
-COPY --from=builder /opt/proj /opt/proj
-ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PROJ_NETWORK=ON
-ENV PATH $PROJ_DIR/bin:$PATH
-RUN echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && ldconfig
-
-COPY --from=builder /usr/local/pyenv /usr/local/pyenv
-ENV PYENV_ROOT=/usr/local/pyenv PIP=pip
-ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
-
-RUN pyenv rehash
-RUN python3 -c "import matplotlib.font_manager, salem"
-
-RUN mkdir /work
+RUN \
+	pyenv rehash && \
+	python3 -c "import matplotlib.font_manager, salem" && \
+	mkdir /work
 
 ADD test.sh /root/test.sh
