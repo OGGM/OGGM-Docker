@@ -111,7 +111,8 @@ ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 RUN \
 	pyenv install-latest $PYTHON_VERSION && \
 	pyenv global $(pyenv install-latest --print $PYTHON_VERSION) && \
-	pyenv rehash
+	pyenv rehash && \
+	(test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
 
 RUN \
 	python -m pip install --no-cache-dir --upgrade pip setuptools wheel virtualenv && \
