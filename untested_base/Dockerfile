@@ -153,7 +153,7 @@ RUN \
 		joblib \
 		dask \
 		distributed \
-		"xarray>=0.14.1" \
+		"git+https://github.com/pydata/xarray.git@7f722cf05aecb0ac1b24ea1c9b84dc8b3e0e0f80" \
 		"cartopy>=0.18.0" \
 		nose \
 		filelock \
