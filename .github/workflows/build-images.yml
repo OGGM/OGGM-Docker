@@ -50,21 +50,6 @@ jobs:
         auth_user: ${{ secrets.DispatchUser }}
         auth_secret: ${{ secrets.DispatchSecret }}
         action: build-docker-image
-  build-py36:
-    runs-on: ubuntu-latest
-    name: Build Python 3.6 Images
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build untested_base:py36
-      id: untested-base-py36
-      uses: OGGM/docker-build-and-push-action@v2
-      with:
-        user: ${{ secrets.DockerhubUser }}
-        pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base_py36/
-        name: oggm/untested_base
-        tags: py36
-        force_pull: true
   build-py37:
     runs-on: ubuntu-latest
     name: Build Python 3.7 Images
