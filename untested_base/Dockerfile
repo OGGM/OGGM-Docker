@@ -7,8 +7,9 @@ FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PYTHON_VERSION=3
+# Stuck at <8 until cartopy adds support
 ARG PROJ_VERSION=7.2.1
-ARG GDAL_VERSION=3.2.3
+ARG GDAL_VERSION=3.3.1
 
 RUN \
 	apt-get -y update && \
