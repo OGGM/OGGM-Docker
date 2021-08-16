@@ -165,6 +165,7 @@ RUN \
 		versioneer \
 		requests \
 		tifffile \
+		Bottleneck \
 		"git+https://github.com/OGGM/pytest-mpl.git" \
 		"git+https://github.com/fmaussion/salem.git"
 
