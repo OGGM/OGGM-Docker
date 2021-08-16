@@ -76,7 +76,7 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 RUN \
-	curl "https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz" -o proj.tar.gz && \
+	curl -L "https://github.com/OSGeo/PROJ/releases/download/${PROJ_VERSION}/proj-${PROJ_VERSION}.tar.gz" -o proj.tar.gz && \
 	tar xavf proj.tar.gz && \
 	rm proj.tar.gz && \
 	cd "proj-${PROJ_VERSION}" && \
@@ -90,7 +90,7 @@ ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PROJ_NETWORK=ON PKG_CONFIG_
 ENV PATH $PROJ_DIR/bin:$PATH
 
 RUN \
-	curl "https://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.xz" -o gdal.tar.xz && \
+	curl -L "https://github.com/OSGeo/gdal/releases/download/v${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz" -o gdal.tar.xz && \
 	tar xavf gdal.tar.xz && \
 	rm gdal.tar.xz && \
 	cd "gdal-${GDAL_VERSION}" && \
