@@ -143,7 +143,7 @@ RUN \
 
 RUN \
 	$PIP install --no-cache-dir --upgrade --no-binary :all: \
-		"rasterio>=1.0.0" \
+		"rasterio >=1.0.0, !=1.2.8, !=1.2.7" \
 		descartes \
 		Pillow \
 		geopandas \
