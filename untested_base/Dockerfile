@@ -104,13 +104,13 @@ RUN \
 ENV PYENV_ROOT /usr/local/pyenv
 RUN \
 	git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
-	git clone --depth=1 https://github.com/momo-lab/pyenv-install-latest.git $PYENV_ROOT/plugins/pyenv-install-latest && \
-	rm -rf $PYENV_ROOT/.git $PYENV_ROOT/plugins/pyenv-install-latest/.git
+	git clone --depth=1 https://github.com/momo-lab/xxenv-latest.git $PYENV_ROOT/plugins/xxenv-latest && \
+	rm -rf $PYENV_ROOT/.git $PYENV_ROOT/plugins/xxenv-latest/.git
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
-	pyenv install-latest $PYTHON_VERSION && \
-	pyenv global $(pyenv install-latest --print $PYTHON_VERSION) && \
+	pyenv latest install $PYTHON_VERSION && \
+	pyenv latest global $PYTHON_VERSION && \
 	pyenv rehash && \
 	(test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
 
