@@ -1,20 +1,16 @@
 ###################################################
-# Dockerfile to build a Python 3.8 environment
-# with OGGM installed, based on Ubuntu 20.04.
+# Dockerfile to build a Python environment
+# with OGGM installed, based on Ubuntu 21.10.
 ###################################################
 
-FROM ubuntu:20.04 as builder
+FROM ubuntu:21.10 as builder
 
-ARG DEBIAN_FRONTEND=noninteractive
 ARG PYTHON_VERSION=3
 ARG PROJ_VERSION=8.2.0
 ARG GDAL_VERSION=3.3.3
 
 RUN \
-	apt-get -y update && \
-	apt-get -y install --no-install-recommends gnupg && \
-	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EFBEC70AD0CF795C0E0E89EC99DBB6A95CA08038 && \
-	echo "deb http://ppa.launchpad.net/btbn/netcdf/ubuntu focal main" >> /etc/apt/sources.list.d/netcdf.list && \
+	export DEBIAN_FRONTEND=noninteractive && \
 	apt-get -y update && \
 	apt-get -y install --no-install-recommends \
 		gfortran \
@@ -174,17 +170,13 @@ RUN \
 	pyenv rehash
 
 
-FROM ubuntu:20.04
+FROM ubuntu:21.10
 
 COPY --from=builder /opt/proj /opt/proj
 COPY --from=builder /usr/local/pyenv /usr/local/pyenv
 
 RUN \
 	export DEBIAN_FRONTEND=noninteractive && \
-	apt-get -y update && \
-	apt-get -y install --no-install-recommends gnupg && \
-	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EFBEC70AD0CF795C0E0E89EC99DBB6A95CA08038 && \
-	echo "deb http://ppa.launchpad.net/btbn/netcdf/ubuntu focal main" >> /etc/apt/sources.list.d/netcdf.list && \
 	apt-get -y update && \
 	apt-get -y install --no-install-recommends \
 		fontconfig \
@@ -195,15 +187,15 @@ RUN \
 		libpng16-16 \
 		libhdf4-0 \
 		libhdf5-103 \
-		libqhull7 \
-		libqhull-r7 \
+		libqhull8.0 \
+		libqhull-r8.0 \
 		libxml2 \
 		libgif7 \
 		libjpeg8 \
 		libjpeg-turbo8 \
 		libopenjp2-7 \
 		libwebp6 \
-		libjson-c4 \
+		libjson-c5 \
 		libgeos-c1v5 \
 		liblapack3 \
 		libagg2 \
