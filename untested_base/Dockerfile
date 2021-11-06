@@ -7,9 +7,8 @@ FROM ubuntu:20.04 as builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PYTHON_VERSION=3
-# Stuck at <8 until cartopy adds support
-ARG PROJ_VERSION=7.2.1
-ARG GDAL_VERSION=3.3.1
+ARG PROJ_VERSION=8.2.0
+ARG GDAL_VERSION=3.3.3
 
 RUN \
 	apt-get -y update && \
@@ -155,7 +154,7 @@ RUN \
 		dask \
 		distributed \
 		"xarray>=0.19.0" \
-		"cartopy>=0.18.0" \
+		"cartopy>=0.20.0" \
 		nose \
 		filelock \
 		pytest \
