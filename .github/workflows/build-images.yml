@@ -6,36 +6,36 @@ on:
     - cron: '0 4 * * 0'
 
 jobs:
-  build-py38:
+  build-py39:
     runs-on: ubuntu-latest
-    name: Build Python 3.8 Images
+    name: Build Python 3.9 Images
     steps:
     - uses: actions/checkout@v2
-    - name: Build untested_base:py38
-      id: untested-base-py38
+    - name: Build untested_base:py39
+      id: untested-base-py39
       uses: OGGM/docker-build-and-push-action@v2
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
         path: ./untested_base/
-        build_args: PYTHON_VERSION=3.8
+        build_args: PYTHON_VERSION=3.9
         name: oggm/untested_base
-        tags: py38,latest
+        tags: py39,latest
         date_tag: true
         force_pull: true
-    - name: Build base:py38
-      id: base-py38
+    - name: Build base:py39
+      id: base-py39
       uses: OGGM/docker-build-and-push-action@v2
       with:
         path: ./base/
         name: oggm/base
         no_push: true
         tmp_tag: 'base:test'
-    - name: Test base:py38
-      id: test-base-py38
+    - name: Test base:py39
+      id: test-base-py39
       run: docker run --rm base:test /root/test.sh
-    - name: Push base:py38
-      id: push-base-py38
+    - name: Push base:py39
+      id: push-base-py39
       uses: OGGM/docker-build-and-push-action@v2
       with:
         path: ./base/
@@ -66,21 +66,21 @@ jobs:
         name: oggm/untested_base
         tags: py37
         force_pull: true
-  build-py39:
+  build-py38:
     runs-on: ubuntu-latest
-    name: Build Python 3.9 Images
+    name: Build Python 3.8 Images
     steps:
     - uses: actions/checkout@v2
-    - name: Build untested_base:py39
-      id: untested-base-py39
+    - name: Build untested_base:py38
+      id: untested-base-py38
       uses: OGGM/docker-build-and-push-action@v2
       with:
         user: ${{ secrets.DockerhubUser }}
         pass: ${{ secrets.DockerhubPass }}
         path: ./untested_base/
-        build_args: PYTHON_VERSION=3.9
+        build_args: PYTHON_VERSION=3.8
         name: oggm/untested_base
-        tags: py39
+        tags: py38
         force_pull: true
   build-py310:
     runs-on: ubuntu-latest
