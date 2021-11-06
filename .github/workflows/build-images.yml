@@ -82,3 +82,19 @@ jobs:
         name: oggm/untested_base
         tags: py39
         force_pull: true
+  build-py310:
+    runs-on: ubuntu-latest
+    name: Build Python 3.10 Images
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build untested_base:py310
+      id: untested-base-py310
+      uses: OGGM/docker-build-and-push-action@v2
+      with:
+        user: ${{ secrets.DockerhubUser }}
+        pass: ${{ secrets.DockerhubPass }}
+        path: ./untested_base/
+        build_args: PYTHON_VERSION=3.10
+        name: oggm/untested_base
+        tags: py310
+        force_pull: true
