@@ -143,7 +143,7 @@ RUN \
 		Pillow \
 		geopandas \
 		netCDF4 \
-		tables \
+		"git+https://github.com/PyTables/PyTables.git" \
 		scikit-image \
 		configobj \
 		joblib \
