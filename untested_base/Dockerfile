@@ -151,7 +151,6 @@ RUN \
 		distributed \
 		"xarray>=0.19.0" \
 		"cartopy>=0.20.0" \
-		rioxarray \
 		nose \
 		filelock \
 		pytest \
