@@ -6,95 +6,75 @@ on:
     - cron: '0 4 * * 0'
 
 jobs:
-  build-py39:
+  build-image:
+    strategy:
+      fail-fast: false
+      matrix:
+        pyver: [3.7,3.8,3.9]
+        include:
+        - pyver: pyston
+          main: true
     runs-on: ubuntu-latest
-    name: Build Python 3.9 Images
+    name: Build Python ${{ matrix.pyver }} Image
     steps:
-    - uses: actions/checkout@v2
-    - name: Build untested_base:py39
-      id: untested-base-py39
-      uses: OGGM/docker-build-and-push-action@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Login to Docker
+      uses: docker/login-action@v1
       with:
-        user: ${{ secrets.DockerhubUser }}
-        pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base/
-        build_args: PYTHON_VERSION=3.9
-        name: oggm/untested_base
-        tags: py39,latest
-        date_tag: true
-        force_pull: true
-    - name: Build base:py39
-      id: base-py39
-      uses: OGGM/docker-build-and-push-action@v2
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+    - name: Set Names
+      id: names
+      run: |
+        MR="ghcr.io/oggm"
+        DI="$(date +%Y%m%d)"
+        PV="${{ matrix.pyver }}"
+        [[ "$PV" == py* ]] || PV="py$PV"
+        echo "::set-output name=vertag::$PV"
+        echo "::set-output name=untested::$MR/untested_base"
+        echo "::set-output name=base::$MR/base"
+        if [[ "${{ matrix.main }}" == "true" ]]; then
+          echo "::set-output name=untested_latest::$MR/untested_base:latest"
+          echo "::set-output name=untested_date::$MR/untested_base:$DI"
+          echo "::set-output name=base_latest::$MR/base:latest"
+          echo "::set-output name=base_date::$MR/base:$DI"
+        fi
+    - name: Stop Commands
+      run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
+    - name: Build untested_base
+      uses: docker/build-push-action@v2
       with:
-        path: ./base/
-        name: oggm/base
-        no_push: true
-        tmp_tag: 'base:test'
-    - name: Test base:py39
-      id: test-base-py39
-      run: docker run --rm base:test /root/test.sh
-    - name: Push base:py39
-      id: push-base-py39
-      uses: OGGM/docker-build-and-push-action@v2
+        context: untested_base
+        pull: true
+        push: true
+        build-args: |
+          PYTHON_VERSION=${{ matrix.pyver }}
+        tags: |
+          ${{ steps.names.outputs.untested }}:${{ steps.names.outputs.vertag }}
+          ${{ steps.names.outputs.untested_latest }}
+          ${{ steps.names.outputs.untested_date }}
+        cache-to: type=gha,mode=max
+        cache-from: type=gha
+    - name: Test image
+      run: docker run --rm "${{ steps.names.outputs.untested }}:${{ steps.names.outputs.vertag }}" /root/test.sh
+    - name: Build base
+      uses: docker/build-push-action@v2
+      if: ${{ matrix.main }}
       with:
-        path: ./base/
-        name: oggm/base
-        no_cache: false
-        date_tag: true
+        context: base
+        push: true
+        tags: |
+          ${{ steps.names.outputs.base_latest }}
+          ${{ steps.names.outputs.base_date }}
     - name: Trigger OGGM
-      id: trigger-oggm
+      if: ${{ matrix.main }}
       uses: OGGM/repo-dispatch-action@v1
       with:
         repo: OGGM/oggm
         auth_user: ${{ secrets.DispatchUser }}
         auth_secret: ${{ secrets.DispatchSecret }}
         action: build-docker-image
-  build-py37:
-    runs-on: ubuntu-latest
-    name: Build Python 3.7 Images
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build untested_base:py37
-      id: untested-base-py37
-      uses: OGGM/docker-build-and-push-action@v2
-      with:
-        user: ${{ secrets.DockerhubUser }}
-        pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base/
-        build_args: PYTHON_VERSION=3.7
-        name: oggm/untested_base
-        tags: py37
-        force_pull: true
-  build-py38:
-    runs-on: ubuntu-latest
-    name: Build Python 3.8 Images
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build untested_base:py38
-      id: untested-base-py38
-      uses: OGGM/docker-build-and-push-action@v2
-      with:
-        user: ${{ secrets.DockerhubUser }}
-        pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base/
-        build_args: PYTHON_VERSION=3.8
-        name: oggm/untested_base
-        tags: py38
-        force_pull: true
-  build-pyston:
-    runs-on: ubuntu-latest
-    name: Build Pyston Images
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build untested_base:pyston
-      id: untested-base-pyston
-      uses: OGGM/docker-build-and-push-action@v2
-      with:
-        user: ${{ secrets.DockerhubUser }}
-        pass: ${{ secrets.DockerhubPass }}
-        path: ./untested_base/
-        build_args: PYTHON_VERSION=pyston
-        name: oggm/untested_base
-        tags: pyston
-        force_pull: true

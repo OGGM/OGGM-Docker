@@ -3,4 +3,4 @@
 # with OGGM installed, based on Ubuntu 19.04.
 ###################################################
 
-FROM oggm/untested_base:latest
+FROM ghcr.io/oggm/untested_base:latest
