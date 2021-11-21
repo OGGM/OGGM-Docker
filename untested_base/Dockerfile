@@ -57,6 +57,8 @@ RUN \
 		liblz4-dev \
 		libsnappy-dev \
 		libzopfli-dev \
+		llvm-11 \
+		llvm-11-dev \
 		sqlite3 \
 		curl \
 		ca-certificates \
@@ -122,22 +124,24 @@ RUN printf '[libs]\nsystem_freetype = True\n' > /tmp/mpl_setup.cfg
 ENV MPLSETUPCFG /tmp/mpl_setup.cfg
 
 # Special-Case packages that have a specific build order and/or special parameters
+ENV LLVM_CONFIG llvm-config-11
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: numpy && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: cython pybind11 six && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: scipy && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: pandas shapely && \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: "matplotlib>=3.1.2"
+	$PIP install --no-cache-dir --no-binary :all: numba && \
+	$PIP install --no-cache-dir --no-binary :all: numpy && \
+	$PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
+	$PIP install --no-cache-dir --no-binary :all: scipy && \
+	$PIP install --no-cache-dir --no-binary :all: pandas shapely && \
+	$PIP install --no-cache-dir --no-binary :all: "matplotlib>=3.1.2"
 RUN \
-	$PIP install --no-cache-dir --upgrade "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')" && \
-	$PIP install --no-cache-dir --upgrade fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
+	$PIP install --no-cache-dir "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')" && \
+	$PIP install --no-cache-dir fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
 
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: \
+	$PIP install --no-cache-dir --no-binary :all: \
 		pyproj
 
 RUN \
-	$PIP install --no-cache-dir --upgrade --no-binary :all: \
+	$PIP install --no-cache-dir --no-binary :all: \
 		"rasterio >=1.0.0, !=1.2.8, !=1.2.7" \
 		descartes \
 		Pillow \
@@ -212,6 +216,7 @@ RUN \
 		libsnappy1v5 \
 		libzopfli1 \
 		libxcb1 \
+		libllvm11 \
 		sqlite3 \
 		curl \
 		git \
@@ -238,6 +243,7 @@ ENV \
 
 RUN \
 	pyenv rehash && \
+	${PIP} check && \
 	python3 -c "import matplotlib.font_manager, salem" && \
 	mkdir /work
 
