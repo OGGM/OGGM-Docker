@@ -111,6 +111,7 @@ RUN \
 	(test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
 
 RUN \
+	if [ "${PYTHON_VERSION#pyston}" != "${PYTHON_VERSION}" ]; then export SETUPTOOLS_USE_DISTUTILS=stdlib; fi; \
 	python -m pip install --no-cache-dir --upgrade pip setuptools wheel virtualenv && \
 	pyenv rehash
 
