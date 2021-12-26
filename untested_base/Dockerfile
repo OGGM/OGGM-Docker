@@ -64,8 +64,6 @@ RUN \
 		ca-certificates \
 		unzip \
 		locales && \
-	apt-get -y purge gnupg && \
-	apt-get -y autoremove && \
 	apt-get -y clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -126,7 +124,7 @@ ENV MPLSETUPCFG /tmp/mpl_setup.cfg
 # Special-Case packages that have a specific build order and/or special parameters
 ENV LLVM_CONFIG llvm-config-11
 RUN \
-	$PIP install --no-cache-dir --no-binary :all: numba && \
+	$PIP install --no-cache-dir --no-binary :all: --pre numba && \
 	$PIP install --no-cache-dir --no-binary :all: numpy && \
 	$PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
 	$PIP install --no-cache-dir --no-binary :all: scipy && \
