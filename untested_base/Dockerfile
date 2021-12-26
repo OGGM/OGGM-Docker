@@ -113,7 +113,7 @@ RUN \
 	(test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
 
 RUN \
-	python -m pip install --no-cache-dir --upgrade pip setuptools wheel virtualenv && \
+	python -m pip install --no-cache-dir --upgrade pip "setuptools<60" wheel virtualenv && \
 	pyenv rehash
 
 ENV PIP pip
