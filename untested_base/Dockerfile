@@ -20,6 +20,7 @@ RUN \
 		file \
 		build-essential \
 		liblapack-dev \
+		libopenblas-dev \
 		libfreetype6-dev \
 		libagg-dev \
 		liblapack-dev \
@@ -110,8 +111,9 @@ RUN \
 	pyenv rehash && \
 	(test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
 
+ENV SETUPTOOLS_USE_DISTUTILS stdlib
+
 RUN \
-	if [ "${PYTHON_VERSION#pyston}" != "${PYTHON_VERSION}" ]; then export SETUPTOOLS_USE_DISTUTILS=stdlib; fi; \
 	python -m pip install --no-cache-dir --upgrade pip setuptools wheel virtualenv && \
 	pyenv rehash
 
@@ -201,6 +203,7 @@ RUN \
 		libjson-c5 \
 		libgeos-c1v5 \
 		liblapack3 \
+		libopenblas0 \
 		libagg2 \
 		libdb5.3 \
 		libexpat1 \
@@ -237,6 +240,7 @@ ENV \
 	PROJ_DIR=/opt/proj \
 	PROJ_LIB=/opt/proj/share/proj \
 	PYENV_ROOT=/usr/local/pyenv \
+	SETUPTOOLS_USE_DISTUTILS=stdlib \
 	PIP=pip \
 	LANG=en_US.UTF-8
 
