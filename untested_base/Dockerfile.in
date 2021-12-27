@@ -5,10 +5,6 @@
 
 FROM ubuntu:21.10 as builder
 
-ARG PYTHON_VERSION=3
-ARG PROJ_VERSION=8.2.0
-ARG GDAL_VERSION=3.3.3
-
 RUN \
 	export DEBIAN_FRONTEND=noninteractive && \
 	apt-get -y update && \
@@ -72,31 +68,31 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 RUN \
-	curl -L "https://github.com/OSGeo/PROJ/releases/download/${PROJ_VERSION}/proj-${PROJ_VERSION}.tar.gz" -o proj.tar.gz && \
+	curl -L "https://github.com/OSGeo/PROJ/releases/download/xxPROJ_VERSION/proj-xxPROJ_VERSION.tar.gz" -o proj.tar.gz && \
 	tar xavf proj.tar.gz && \
 	rm proj.tar.gz && \
-	cd "proj-${PROJ_VERSION}" && \
+	cd "proj-xxPROJ_VERSION" && \
 	./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic && \
 	make -j$(nproc) && make install && \
 	cd .. && \
-	rm -rf "proj-${PROJ_VERSION}" && \
+	rm -rf "proj-xxPROJ_VERSION" && \
 	echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && \
 	ldconfig
 ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PROJ_NETWORK=ON PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
 ENV PATH $PROJ_DIR/bin:$PATH
 
 RUN \
-	curl -L "https://github.com/OSGeo/gdal/releases/download/v${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz" -o gdal.tar.xz && \
+	curl -L "https://github.com/OSGeo/gdal/releases/download/`v'xxGDAL_VERSION/gdal-xxGDAL_VERSION.tar.gz" -o gdal.tar.xz && \
 	tar xavf gdal.tar.xz && \
 	rm gdal.tar.xz && \
-	cd "gdal-${GDAL_VERSION}" && \
+	cd "gdal-xxGDAL_VERSION" && \
 	./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic --enable-lto --with-rename-internal-libgeotiff-symbols=yes \
 		--with-proj=/opt/proj \
 		--with-pcraster=internal --with-geotiff=internal \
 		--with-hdf5=yes --with-netcdf=yes --with-libtiff=yes --with-jpeg=yes --with-libz=yes --with-png=yes --with-gif=yes --with-geos=yes && \
 	make -j$(nproc) && make install && \
 	cd .. && \
-	rm -rf "gdal-${GDAL_VERSION}"
+	rm -rf "gdal-xxGDAL_VERSION"
 
 ENV PYENV_ROOT /usr/local/pyenv
 RUN \
@@ -106,12 +102,12 @@ RUN \
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
-	pyenv latest install $PYTHON_VERSION && \
-	pyenv latest global $PYTHON_VERSION && \
+	pyenv latest install xxPYTHON_VERSION && \
+	pyenv latest global xxPYTHON_VERSION && \
 	pyenv rehash && \
 	(test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
 
-ENV SETUPTOOLS_USE_DISTUTILS stdlib
+m4_ifelse(m4_index(xxPYTHON_VERSION, pyston), 0, ENV SETUPTOOLS_USE_DISTUTILS stdlib)
 
 RUN \
 	python -m pip install --no-cache-dir --upgrade pip setuptools wheel virtualenv && \
@@ -240,7 +236,7 @@ ENV \
 	PROJ_DIR=/opt/proj \
 	PROJ_LIB=/opt/proj/share/proj \
 	PYENV_ROOT=/usr/local/pyenv \
-	SETUPTOOLS_USE_DISTUTILS=stdlib \
+	m4_ifelse(m4_index(xxPYTHON_VERSION, pyston), 0, SETUPTOOLS_USE_DISTUTILS=stdlib) \
 	PIP=pip \
 	LANG=en_US.UTF-8
 
