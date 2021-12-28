@@ -137,9 +137,10 @@ RUN \
 	$PIP install --no-cache-dir --no-binary :all: \
 		pyproj
 
+# Use normal rasterio relese once rasterio 1.3 is out.
 RUN \
 	$PIP install --no-cache-dir --no-binary :all: \
-		"rasterio >=1.0.0, !=1.2.8, !=1.2.7" \
+		m4_ifelse(xxPYTHON_VERSION, 3.10, git+https://github.com/rasterio/rasterio.git@0f1b726d1d17e809df4ee941e2187d11110a7ee0, rasterio) \
 		descartes \
 		Pillow \
 		geopandas \

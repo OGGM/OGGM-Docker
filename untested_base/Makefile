@@ -11,4 +11,4 @@ Dockerfile: Dockerfile.in
 		-D xxGDAL_VERSION="$(GDAL_VERSION)" \
 		--prefix-builtins $< >$@
 
-.PHONY: all
+.PHONY: all Dockerfile
