@@ -126,7 +126,7 @@ RUN \
 	$PIP install --no-cache-dir --no-binary :all: --pre numba && \
 	$PIP install --no-cache-dir --no-binary :all: numpy && \
 	$PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
-	$PIP install --no-cache-dir --no-build-isolation --no-binary :all: cftime && \
+	$PIP install --no-cache-dir --no-build-isolation --no-binary :all: cftime Bottleneck && \
 	$PIP install --no-cache-dir --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --no-binary :all: pandas shapely && \
 	$PIP install --no-cache-dir --no-binary :all: "matplotlib>=3.1.2"
@@ -165,7 +165,6 @@ RUN \
 		versioneer \
 		requests \
 		tifffile \
-		Bottleneck \
 		"git+https://github.com/OGGM/pytest-mpl.git" \
 		"git+https://github.com/fmaussion/salem.git"
 
