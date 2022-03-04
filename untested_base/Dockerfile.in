@@ -166,7 +166,8 @@ RUN \
 		requests \
 		tifffile \
 		"git+https://github.com/OGGM/pytest-mpl.git" \
-		"git+https://github.com/fmaussion/salem.git"
+		"git+https://github.com/fmaussion/salem.git" && \
+    ${PIP} install --no-cache-dir --no-binary scikit-learn scikit-learn
 
 RUN \
 	sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc && \
