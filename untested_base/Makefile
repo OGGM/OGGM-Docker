@@ -1,6 +1,6 @@
 PYTHON_VERSION ?= 3
-PROJ_VERSION ?= 8.2.0
-GDAL_VERSION ?= 3.3.3
+PROJ_VERSION ?= 8.2.1
+GDAL_VERSION ?= 3.4.1
 
 all: Dockerfile
 
