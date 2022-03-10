@@ -218,6 +218,7 @@ RUN \
 		libzopfli1 \
 		libxcb1 \
 		libllvm11 \
+		libgomp1 \
 		sqlite3 \
 		curl \
 		git \
