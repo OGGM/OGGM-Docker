@@ -15,6 +15,8 @@ RUN \
 		git \
 		file \
 		build-essential \
+		cmake \
+		ninja-build \
 		liblapack-dev \
 		libopenblas-dev \
 		libfreetype6-dev \
@@ -72,13 +74,15 @@ RUN \
 	tar xavf proj.tar.gz && \
 	rm proj.tar.gz && \
 	cd "proj-xxPROJ_VERSION" && \
-	./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic && \
-	make -j$(nproc) && make install && \
-	cd .. && \
+	mkdir build && cd build && \
+	cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/proj -DENABLE_IPO=ON -DBUILD_APPS=ON -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF .. && \
+	ninja -j$(nproc) && ninja install && \
+	cd ../.. && \
 	rm -rf "proj-xxPROJ_VERSION" && \
 	echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && \
-	ldconfig
-ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PROJ_NETWORK=ON PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
+	ldconfig && \
+	/opt/proj/bin/projsync --system-directory --all
+ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
 ENV PATH $PROJ_DIR/bin:$PATH
 
 RUN \
@@ -236,7 +240,6 @@ RUN \
 
 ENV \
 	PATH=/usr/local/pyenv/shims:/usr/local/pyenv/bin:/opt/proj/bin:$PATH \
-	PROJ_NETWORK=ON \
 	PROJ_DIR=/opt/proj \
 	PROJ_LIB=/opt/proj/share/proj \
 	PYENV_ROOT=/usr/local/pyenv \
