@@ -131,8 +131,9 @@ RUN \
 	$PIP install --no-cache-dir --no-binary :all: numba && \
 	$PIP install --no-cache-dir --no-binary :all: numpy && \
 	$PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
+	$PIP install --no-cache-dir --no-binary :all: pythran && \
 	$PIP install --no-cache-dir --no-build-isolation --no-binary :all: cftime Bottleneck && \
-	$PIP install --no-cache-dir --no-binary :all: scipy && \
+	$PIP install --no-cache-dir --no-build-isolation --no-binary :all: scipy && \
 	$PIP install --no-cache-dir --no-binary :all: pandas shapely && \
 	$PIP install --no-cache-dir --no-binary :all: "matplotlib>=3.1.2"
 RUN \
