@@ -3,8 +3,6 @@
 # with OGGM installed, based on Ubuntu 21.10.
 ###################################################
 
-m4_include(`Dockerfile_dev.in')
-
-m4_include(`Dockerfile_empty.in')
+FROM xxEMPTY_TAG
 
 m4_include(`Dockerfile_final.inc')

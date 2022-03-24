@@ -1,0 +1,177 @@
+FROM ubuntu:21.10 as xxDEV_TAG
+
+RUN \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt-get -y update && \
+    apt-get -y install --no-install-recommends \
+        gfortran \
+        fontconfig \
+        fonts-dejavu \
+        git \
+        file \
+        build-essential \
+        cmake \
+        ninja-build \
+        liblapack-dev \
+        libopenblas-dev \
+        libfreetype6-dev \
+        libagg-dev \
+        liblapack-dev \
+        netcdf-bin \
+        libnetcdf-dev \
+        libssl-dev \
+        libffi-dev \
+        libtiff-dev \
+        libpng-dev \
+        libhdf4-dev \
+        libhdf5-dev \
+        libqhull-dev \
+        libxml2-dev \
+        libgif-dev \
+        libjpeg-dev \
+        libopenjp2-7-dev \
+        libwebp-dev \
+        libjson-c-dev \
+        libgeos-dev \
+        blt-dev \
+        libdb-dev \
+        libreadline-dev \
+        libncursesw5-dev \
+        zlib1g-dev \
+        libbz2-dev \
+        liblzma-dev \
+        libsqlite3-dev \
+        libgdbm-dev \
+        libmpdec-dev \
+        libexpat1-dev \
+        libblosc-dev \
+        libbrotli-dev \
+        liblcms2-dev \
+        libjxr-dev \
+        liblz4-dev \
+        libsnappy-dev \
+        libzopfli-dev \
+        llvm-11 \
+        llvm-11-dev \
+        sqlite3 \
+        curl \
+        ca-certificates \
+        unzip \
+        locales && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+
+RUN \
+    curl -L "https://github.com/OSGeo/PROJ/releases/download/xxPROJ_VERSION/proj-xxPROJ_VERSION.tar.gz" -o proj.tar.gz && \
+    tar xavf proj.tar.gz && \
+    rm proj.tar.gz && \
+    cd "proj-xxPROJ_VERSION" && \
+    mkdir build && cd build && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/proj -DENABLE_IPO=ON -DBUILD_APPS=ON -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF .. && \
+    ninja -j$(nproc) && ninja install && \
+    cd ../.. && \
+    rm -rf "proj-xxPROJ_VERSION" && \
+    echo /opt/proj/lib > /etc/ld.so.conf.d/optproj.conf && \
+    ldconfig && \
+    /opt/proj/bin/projsync --system-directory --all
+ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PKG_CONFIG_PATH=/opt/proj/lib/pkgconfig
+ENV PATH $PROJ_DIR/bin:$PATH
+
+RUN \
+    curl -L "https://github.com/OSGeo/gdal/releases/download/`v'xxGDAL_VERSION/gdal-xxGDAL_VERSION.tar.gz" -o gdal.tar.xz && \
+    tar xavf gdal.tar.xz && \
+    rm gdal.tar.xz && \
+    cd "gdal-xxGDAL_VERSION" && \
+    ./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic --enable-lto --with-rename-internal-libgeotiff-symbols=yes \
+        --with-proj=/opt/proj \
+        --with-pcraster=internal --with-geotiff=internal \
+        --with-hdf5=yes --with-netcdf=yes --with-libtiff=yes --with-jpeg=yes --with-libz=yes --with-png=yes --with-gif=yes --with-geos=yes && \
+    make -j$(nproc) && make install && \
+    cd .. && \
+    rm -rf "gdal-xxGDAL_VERSION"
+
+ENV PYENV_ROOT /usr/local/pyenv
+RUN \
+    git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
+    git clone --depth=1 https://github.com/momo-lab/xxenv-latest.git $PYENV_ROOT/plugins/xxenv-latest && \
+    rm -rf $PYENV_ROOT/.git $PYENV_ROOT/plugins/xxenv-latest/.git
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+
+RUN \
+    pyenv latest install xxPYTHON_VERSION && \
+    pyenv latest global xxPYTHON_VERSION && \
+    pyenv rehash && \
+    (test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
+
+m4_ifelse(m4_index(xxPYTHON_VERSION, pyston), 0, ENV SETUPTOOLS_USE_DISTUTILS stdlib)
+
+RUN \
+    python -m pip install --no-cache-dir --upgrade pip setuptools wheel virtualenv && \
+    pyenv rehash
+
+ENV PIP pip
+
+# Matplotlib for some reason wants to bundle an ancient version of freetype
+# Create setup.cfg to stop it
+RUN printf '[libs]\nsystem_freetype = True\n' > /tmp/mpl_setup.cfg
+ENV MPLSETUPCFG /tmp/mpl_setup.cfg
+
+# Special-Case packages that have a specific build order and/or special parameters
+ENV LLVM_CONFIG llvm-config-11
+RUN \
+    export NPY_NUM_BUILD_JOBS=$(nproc) && \
+    $PIP install --no-cache-dir --no-binary :all: numba && \
+    $PIP install --no-cache-dir --no-binary :all: numpy && \
+    $PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
+    $PIP install --no-cache-dir --no-binary :all: pythran && \
+    $PIP install --no-cache-dir --no-build-isolation --no-binary :all: cftime Bottleneck && \
+    $PIP install --no-cache-dir --no-build-isolation --no-binary :all: scipy && \
+    $PIP install --no-cache-dir --no-binary :all: pandas shapely && \
+    $PIP install --no-cache-dir --no-binary :all: "matplotlib>=3.1.2"
+RUN \
+    export NPY_NUM_BUILD_JOBS=$(nproc) && \
+    $PIP install --no-cache-dir "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')" && \
+    $PIP install --no-cache-dir fiona --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')"
+
+RUN \
+    export NPY_NUM_BUILD_JOBS=$(nproc) && \
+    $PIP install --no-cache-dir --no-binary :all: \
+        pyproj
+
+# Use normal rasterio relese once rasterio 1.3 is out.
+RUN \
+    export NPY_NUM_BUILD_JOBS=$(nproc) && \
+    $PIP install --no-cache-dir --no-binary :all: \
+        m4_ifelse(xxPYTHON_VERSION, 3.10, git+https://github.com/rasterio/rasterio.git@1.3a3, m4_ifelse(xxPYTHON_VERSION, 3, git+https://github.com/rasterio/rasterio.git@1.3a3, rasterio)) \
+        descartes \
+        Pillow \
+        geopandas \
+        netCDF4 \
+        "git+https://github.com/PyTables/PyTables.git" \
+        configobj \
+        joblib \
+        dask \
+        distributed \
+        "xarray>=0.20.2" \
+        rioxarray \
+        "cartopy>=0.20.0" \
+        nose \
+        filelock \
+        pytest \
+        pytest-cov \
+        ilock \
+        progressbar2 \
+        motionless \
+        versioneer \
+        requests \
+        tifffile \
+        "git+https://github.com/OGGM/pytest-mpl.git" \
+        "git+https://github.com/fmaussion/salem.git" && \
+    ${PIP} install --no-cache-dir --no-binary scikit-image,scikit-learn scikit-image scikit-learn
+
+RUN \
+    sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc && \
+    pyenv rehash
