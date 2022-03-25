@@ -136,6 +136,9 @@ RUN \
     $PIP install --no-cache-dir --no-binary :all: pandas shapely
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
+    $PIP install --no-cache-dir --no-binary cartopy "cartopy>=0.20.2"
+RUN \
+    export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: "git+https://github.com/nucleic/kiwi.git@25f5ebbc4893d2711d80df6391288dac8f564c65" && \
     $PIP install --no-cache-dir --no-binary :all: "matplotlib>=3.1.2"
 RUN \
@@ -163,7 +166,6 @@ RUN \
         distributed \
         "xarray>=0.20.2" \
         rioxarray \
-        "cartopy>=0.20.0" \
         nose \
         filelock \
         pytest \
