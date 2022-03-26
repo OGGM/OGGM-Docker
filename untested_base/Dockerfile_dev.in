@@ -109,7 +109,7 @@ RUN \
 m4_ifelse(m4_index(xxPYTHON_VERSION, pyston), 0, ENV SETUPTOOLS_USE_DISTUTILS stdlib)
 
 RUN \
-    python -m pip install --no-cache-dir --upgrade pip "setuptools<61" wheel virtualenv && \
+    python -m pip install --no-cache-dir --upgrade pip setuptools wheel virtualenv && \
     pyenv rehash
 
 ENV PIP pip
