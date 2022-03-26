@@ -135,11 +135,11 @@ RUN \
     $PIP install --no-cache-dir --no-binary :all: pandas shapely
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
-    $PIP install --no-cache-dir --no-binary cartopy "cartopy>=0.20.2"
-RUN \
-    export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: "git+https://github.com/nucleic/kiwi.git@25f5ebbc4893d2711d80df6391288dac8f564c65" && \
     $PIP install --no-cache-dir --no-binary :all: "matplotlib>=3.1.2"
+RUN \
+    export NPY_NUM_BUILD_JOBS=$(nproc) && \
+    $PIP install --no-cache-dir --no-binary cartopy "cartopy>=0.20.2"
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" --install-option="build_ext" --install-option="$(gdal-config --cflags | sed 's/-I/--include-dirs=/')" && \
