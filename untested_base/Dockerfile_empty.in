@@ -57,6 +57,7 @@ RUN \
 
 ENV \
     PATH=/usr/local/pyenv/shims:/usr/local/pyenv/bin:/opt/proj/bin:$PATH \
+    PROJ_NETWORK=ON \
     PROJ_DIR=/opt/proj \
     PROJ_LIB=/opt/proj/share/proj \
     PYENV_ROOT=/usr/local/pyenv \
