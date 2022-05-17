@@ -152,7 +152,7 @@ RUN \
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: \
-        m4_ifelse(xxPYTHON_VERSION, 3.10, git+https://github.com/rasterio/rasterio.git@1.3a3, m4_ifelse(xxPYTHON_VERSION, 3, git+https://github.com/rasterio/rasterio.git@1.3a3, rasterio)) \
+        m4_ifelse(xxPYTHON_VERSION, 3.10, git+https://github.com/rasterio/rasterio.git@1.3b1, m4_ifelse(xxPYTHON_VERSION, 3, git+https://github.com/rasterio/rasterio.git@1.3b1, rasterio)) \
         descartes \
         Pillow \
         geopandas \
