@@ -126,7 +126,7 @@ RUN \
     $PIP install --no-cache-dir --no-binary :all: numpy && \
     $PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
     $PIP install --no-cache-dir --no-binary :all: pythran && \
-    $PIP install --no-cache-dir --no-build-isolation --no-binary :all: cftime Bottleneck
+    $PIP install --no-cache-dir --no-binary :all: cftime Bottleneck
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary scipy scipy
