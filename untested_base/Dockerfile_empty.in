@@ -9,7 +9,6 @@ RUN \
         libfreetype6 \
         netcdf-bin \
         libtiff5 \
-        libgeotiff5 \
         libpng16-16 \
         libhdf4-0 \
         libhdf5-103 \
