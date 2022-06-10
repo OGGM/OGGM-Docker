@@ -22,6 +22,7 @@ RUN \
         libssl-dev \
         libffi-dev \
         libtiff-dev \
+        libgeotiff-dev \
         libpng-dev \
         libhdf4-dev \
         libhdf5-dev \
@@ -84,12 +85,13 @@ RUN \
     tar xavf gdal.tar.xz && \
     rm gdal.tar.xz && \
     cd "gdal-xxGDAL_VERSION" && \
-    ./configure --prefix=/opt/proj --enable-shared --disable-static --with-pic --enable-lto --with-rename-internal-libgeotiff-symbols=yes \
-        --with-proj=/opt/proj \
-        --with-pcraster=internal --with-geotiff=internal \
-        --with-hdf5=yes --with-netcdf=yes --with-libtiff=yes --with-jpeg=yes --with-libz=yes --with-png=yes --with-gif=yes --with-geos=yes && \
-    make -j$(nproc) && make install && \
-    cd .. && \
+    mkdir build && cd build && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/proj -DENABLE_IPO=ON -DBUILD_APPS=ON -DBUILD_SHARED_LIBS=ON \
+        -DBUILD_PYTHON_BINDINGS=OFF -DGDAL_USE_INTERNAL_LIBS=WHEN_NO_EXTERNAL -DGDAL_USE_LIBCSF_INTERNAL=ON \
+        -DGDAL_USE_GEOTIFF=ON -DGDAL_USE_HDF5=ON -DGDAL_USE_NETCDF=ON -DGDAL_USE_TIFF=ON -DGDAL_USE_JPEG=ON -DGDAL_USE_ZLIB=ON -DGDAL_USE_PNG=ON -DGDAL_USE_GIF=ON -DGDAL_USE_GEOS=ON \
+        .. && \
+    ninja -j$(nproc) && ninja install && \
+    cd ../.. && \
     rm -rf "gdal-xxGDAL_VERSION"
 
 ENV PYENV_ROOT /usr/local/pyenv
