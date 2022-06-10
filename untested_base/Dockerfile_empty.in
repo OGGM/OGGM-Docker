@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM ubuntu:22.04
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \
@@ -20,7 +20,7 @@ RUN \
         libjpeg8 \
         libjpeg-turbo8 \
         libopenjp2-7 \
-        libwebp6 \
+        libwebp7 \
         libjson-c5 \
         libgeos-c1v5 \
         liblapack3 \
@@ -28,7 +28,7 @@ RUN \
         libagg2 \
         libdb5.3 \
         libexpat1 \
-        libffi7 \
+        libffi8 \
         libbz2-1.0 \
         liblzma5 \
         libblosc1 \
