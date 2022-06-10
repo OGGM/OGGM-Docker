@@ -92,7 +92,8 @@ RUN \
         .. && \
     ninja -j$(nproc) && ninja install && \
     cd ../.. && \
-    rm -rf "gdal-xxGDAL_VERSION"
+    rm -rf "gdal-xxGDAL_VERSION" && \
+    ldconfig
 
 ENV PYENV_ROOT /usr/local/pyenv
 RUN \
