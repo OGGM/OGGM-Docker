@@ -80,12 +80,12 @@ ENV PROJ_DIR=/opt/proj PROJ_LIB=/opt/proj/share/proj PROJ_NETWORK=ON PKG_CONFIG_
 ENV PATH $PROJ_DIR/bin:$PATH
 
 RUN \
-    curl -L "https://github.com/OSGeo/gdal/releases/download/`v'xxGDAL_VERSION/gdal-xxGDAL_VERSION.tar.gz" -o gdal.tar.xz && \
+    curl -L "https://github.com/OSGeo/gdal/archive/refs/tags/`v'xxGDAL_VERSION.tar.gz" -o gdal.tar.xz && \
     tar xavf gdal.tar.xz && \
     rm gdal.tar.xz && \
     cd "gdal-xxGDAL_VERSION" && \
     mkdir build && cd build && \
-    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/proj -DENABLE_IPO=ON -DBUILD_APPS=ON -DBUILD_SHARED_LIBS=ON \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/proj -DENABLE_IPO=ON -DBUILD_APPS=ON -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF \
         -DBUILD_PYTHON_BINDINGS=OFF -DGDAL_USE_INTERNAL_LIBS=WHEN_NO_EXTERNAL \
         -DGDAL_USE_LIBCSF_INTERNAL=ON -DGDAL_USE_GEOTIFF_INTERNAL=ON \
         -DGDAL_USE_HDF5=ON -DGDAL_USE_NETCDF=ON -DGDAL_USE_TIFF=ON -DGDAL_USE_JPEG=ON -DGDAL_USE_ZLIB=ON -DGDAL_USE_PNG=ON -DGDAL_USE_GIF=ON -DGDAL_USE_GEOS=ON \
