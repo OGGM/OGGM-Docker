@@ -125,7 +125,7 @@ ENV MPLSETUPCFG /tmp/mpl_setup.cfg
 ENV LLVM_CONFIG llvm-config-11
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
-    $PIP install --no-cache-dir --no-binary :all: numba && \
+    $PIP install --no-cache-dir --no-binary :all: numba "numpy<1.22" && \
     $PIP install --no-cache-dir --no-binary :all: numpy && \
     $PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
     $PIP install --no-cache-dir --no-binary :all: pythran && \
