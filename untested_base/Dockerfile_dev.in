@@ -151,11 +151,10 @@ RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: pyproj
 
-# Use normal rasterio relese once rasterio 1.3 is out.
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: \
-        m4_ifelse(xxPYTHON_VERSION, 3.10, git+https://github.com/rasterio/rasterio.git@1.3b1, m4_ifelse(xxPYTHON_VERSION, 3, git+https://github.com/rasterio/rasterio.git@1.3b1, rasterio)) \
+        rasterio \
         descartes \
         Pillow \
         geopandas \
