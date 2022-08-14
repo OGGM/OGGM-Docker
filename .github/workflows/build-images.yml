@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pyver: ["3.7","3.8","3.9","pyston"]
+        pyver: ["3.8","3.9","3.11"]
         include:
         - pyver: "3.10"
           main: true
