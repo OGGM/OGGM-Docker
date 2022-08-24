@@ -103,8 +103,8 @@ RUN \
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
-    pyenv latest install xxPYTHON_VERSION && \
-    pyenv latest global xxPYTHON_VERSION && \
+    { { pyenv latest install xxPYTHON_VERSION && pyenv latest global xxPYTHON_VERSION; } \
+    || { pyenv install xxPYTHON_VERSION && pyenv global xxPYTHON_VERSION; }; } && \
     pyenv rehash && \
     (test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
 
