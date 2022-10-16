@@ -131,6 +131,9 @@ RUN \
     $PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
     $PIP install --no-cache-dir --no-binary :all: pythran && \
     $PIP install --no-cache-dir --no-binary :all: cftime Bottleneck
+# Remove once fixed version is released
+RUN \
+    $PIP install --no-cache-dir --no-binary :all: "netCDF4!=1.6.1"
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary scipy scipy
