@@ -34,20 +34,20 @@ jobs:
         DI="$(date +%Y%m%d)"
         PV="${{ matrix.pyver }}"
         [[ "$PV" == py* ]] || PV="py$PV"
-        echo "::set-output name=vertag::$PV"
-        echo "::set-output name=dev::$MR/dev_base"
-        echo "::set-output name=empty::$MR/empty_base"
-        echo "::set-output name=untested::$MR/untested_base"
-        echo "::set-output name=base::$MR/base"
+        echo "vertag=$PV" >> $GITHUB_OUTPUT
+        echo "dev=$MR/dev_base" >> $GITHUB_OUTPUT
+        echo "empty=$MR/empty_base" >> $GITHUB_OUTPUT
+        echo "untested=$MR/untested_base" >> $GITHUB_OUTPUT
+        echo "base=$MR/base" >> $GITHUB_OUTPUT
         if [[ "${{ matrix.main }}" == "true" ]]; then
-          echo "::set-output name=dev_latest::$MR/dev_base:latest"
-          echo "::set-output name=dev_date::$MR/dev_base:$DI"
-          echo "::set-output name=empty_latest::$MR/empty_base:latest"
-          echo "::set-output name=empty_date::$MR/empty_base:$DI"
-          echo "::set-output name=untested_latest::$MR/untested_base:latest"
-          echo "::set-output name=untested_date::$MR/untested_base:$DI"
-          echo "::set-output name=base_latest::$MR/base:latest"
-          echo "::set-output name=base_date::$MR/base:$DI"
+          echo "dev_latest=$MR/dev_base:latest" >> $GITHUB_OUTPUT
+          echo "dev_date=$MR/dev_base:$DI" >> $GITHUB_OUTPUT
+          echo "empty_latest=$MR/empty_base:latest" >> $GITHUB_OUTPUT
+          echo "empty_date=$MR/empty_base:$DI" >> $GITHUB_OUTPUT
+          echo "untested_latest=$MR/untested_base:latest" >> $GITHUB_OUTPUT
+          echo "untested_date=$MR/untested_base:$DI" >> $GITHUB_OUTPUT
+          echo "base_latest=$MR/base:latest" >> $GITHUB_OUTPUT
+          echo "base_date=$MR/base:$DI" >> $GITHUB_OUTPUT
         fi
     - name: Stop Commands
       run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
