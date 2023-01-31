@@ -55,7 +55,7 @@ jobs:
       run: make -C untested_base PYTHON_VERSION="${{ matrix.pyver }}" Dockerfile_dev Dockerfile_empty
     - name: Build dev_base
       id: dev_base
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         context: untested_base
         file: untested_base/Dockerfile_dev
@@ -69,7 +69,7 @@ jobs:
         cache-from: type=registry,ref=${{ steps.names.outputs.dev }}:cache_${{ steps.names.outputs.vertag }}
     - name: Build empty_base
       id: empty_base
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         context: untested_base
         file: untested_base/Dockerfile_empty
@@ -84,7 +84,7 @@ jobs:
     - name: Generate Final Dockerfile
       run: make -C untested_base PYTHON_VERSION="${{ matrix.pyver }}" DEV_TAG="${{ steps.names.outputs.dev }}@${{ steps.dev_base.outputs.digest }}" EMPTY_TAG="${{ steps.names.outputs.empty }}@${{ steps.empty_base.outputs.digest }}" Dockerfile_final
     - name: Build untested_base
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         context: untested_base
         file: untested_base/Dockerfile_final
@@ -99,7 +99,7 @@ jobs:
     - name: Test image
       run: docker run --rm "${{ steps.names.outputs.untested }}:${{ steps.names.outputs.vertag }}" /root/test.sh
     - name: Build base
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       if: ${{ matrix.main }}
       with:
         context: base
