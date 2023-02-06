@@ -139,7 +139,7 @@ RUN \
     $PIP install --no-cache-dir --no-binary scipy "scipy!=1.10.*"
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
-    $PIP install --no-cache-dir --no-binary :all: pandas shapely
+    $PIP install --no-cache-dir --no-binary :all: pandas "shapely<2"
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: "matplotlib>=3.1.2"
