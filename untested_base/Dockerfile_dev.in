@@ -51,8 +51,8 @@ RUN \
         liblz4-dev \
         libsnappy-dev \
         libzopfli-dev \
-        llvm-11 \
-        llvm-11-dev \
+        llvm-14 \
+        llvm-14-dev \
         sqlite3 \
         curl \
         ca-certificates \
@@ -122,11 +122,11 @@ RUN printf '[libs]\nsystem_freetype = True\n' > /tmp/mpl_setup.cfg
 ENV MPLSETUPCFG /tmp/mpl_setup.cfg
 
 # Special-Case packages that have a specific build order and/or special parameters
-ENV LLVM_CONFIG llvm-config-11
+ENV LLVM_CONFIG llvm-config-14
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir versioneer && \
-    $PIP install --no-cache-dir --no-binary :all: numba && \
+    $PIP install --no-cache-dir --no-binary :all: git+https://github.com/numba/llvmlite.git git+https://github.com/numba/numba.git && \
     $PIP install --no-cache-dir --no-binary :all: numpy && \
     $PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
     $PIP install --no-cache-dir --no-binary :all: pythran && \
