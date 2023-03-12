@@ -136,7 +136,7 @@ RUN \
     $PIP install --no-cache-dir --no-binary :all: "netCDF4!=1.6.1"
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
-    $PIP install --no-cache-dir --no-binary scipy "scipy!=1.10.*"
+    $PIP install --no-cache-dir --no-binary scipy scipy
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: pandas shapely
