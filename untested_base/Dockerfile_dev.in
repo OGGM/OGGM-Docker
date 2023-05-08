@@ -126,7 +126,7 @@ ENV LLVM_CONFIG llvm-config-14
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir versioneer && \
-    $PIP install --no-cache-dir --no-binary :all: git+https://github.com/numba/llvmlite.git git+https://github.com/numba/numba.git && \
+    $PIP install --no-cache-dir --no-binary :all: numba && \
     $PIP install --no-cache-dir --no-binary :all: numpy && \
     $PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
     $PIP install --no-cache-dir --no-binary :all: pythran && \
