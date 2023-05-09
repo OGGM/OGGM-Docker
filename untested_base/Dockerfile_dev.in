@@ -125,6 +125,7 @@ ENV MPLSETUPCFG /tmp/mpl_setup.cfg
 ENV LLVM_CONFIG llvm-config-14
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
+    export PIP_USE_PEP517=1 && \
     $PIP install --no-cache-dir versioneer && \
     $PIP install --no-cache-dir --no-binary :all: numba && \
     $PIP install --no-cache-dir --no-binary :all: numpy && \
