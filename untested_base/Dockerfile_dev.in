@@ -12,6 +12,9 @@ RUN \
         build-essential \
         cmake \
         ninja-build \
+        autoconf \
+        automake \
+        libtool \
         liblapack-dev \
         libopenblas-dev \
         libfreetype6-dev \
