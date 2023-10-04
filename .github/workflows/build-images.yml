@@ -61,6 +61,7 @@ jobs:
         file: untested_base/Dockerfile_dev
         pull: true
         push: true
+        provenance: false
         tags: |
           ${{ steps.names.outputs.dev }}:${{ steps.names.outputs.vertag }}
           ${{ steps.names.outputs.dev_latest }}
@@ -75,6 +76,7 @@ jobs:
         file: untested_base/Dockerfile_empty
         pull: true
         push: true
+        provenance: false
         tags: |
           ${{ steps.names.outputs.empty }}:${{ steps.names.outputs.vertag }}
           ${{ steps.names.outputs.empty_latest }}
@@ -90,6 +92,7 @@ jobs:
         file: untested_base/Dockerfile_final
         pull: true
         push: true
+        provenance: false
         tags: |
           ${{ steps.names.outputs.untested }}:${{ steps.names.outputs.vertag }}
           ${{ steps.names.outputs.untested_latest }}
@@ -104,6 +107,7 @@ jobs:
       with:
         context: base
         push: true
+        provenance: false
         tags: |
           ${{ steps.names.outputs.base_latest }}
           ${{ steps.names.outputs.base_date }}
