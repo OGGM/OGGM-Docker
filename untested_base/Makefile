@@ -1,6 +1,6 @@
 PYTHON_VERSION ?= 3
-PROJ_VERSION ?= 9.2.1
-GDAL_VERSION ?= 3.7.1
+PROJ_VERSION ?= 9.3.0
+GDAL_VERSION ?= 3.8.0
 
 DEV_TAG ?= ghcr.io/oggm/dev_base:latest
 EMPTY_TAG ?= ghcr.io/oggm/empty_base:latest
