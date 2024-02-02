@@ -150,11 +150,12 @@ RUN \
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: "gdal<$(gdal-config --version | cut -d. -f1).$(( $(gdal-config --version | cut -d. -f2) + 1 ))" && \
-    $PIP install --no-cache-dir --no-binary :all: fiona
+    $PIP install --no-cache-dir --no-binary :all: fiona && \
+    $PIP install --no-cache-dir --no-binary :all: pyproj
 
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
-    $PIP install --no-cache-dir --no-binary :all: pyproj
+    $PIP install --no-cache-dir --no-binary tables tables
 
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
@@ -164,7 +165,6 @@ RUN \
         Pillow \
         geopandas \
         netCDF4 \
-        "git+https://github.com/PyTables/PyTables.git" \
         configobj \
         joblib \
         dask \
