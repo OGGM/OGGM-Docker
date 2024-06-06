@@ -101,14 +101,13 @@ RUN \
 ENV PYENV_ROOT /usr/local/pyenv
 RUN \
     git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
-    git clone --depth=1 https://github.com/momo-lab/xxenv-latest.git $PYENV_ROOT/plugins/xxenv-latest && \
-    rm -rf $PYENV_ROOT/.git $PYENV_ROOT/plugins/xxenv-latest/.git
+    rm -rf $PYENV_ROOT/.git
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 RUN \
     export PYTHON_CONFIGURE_OPTS="--enable-optimizations --with-lto" PYTHON_CFLAGS="-march=x86-64-v3" && \
-    { { pyenv latest install --verbose xxPYTHON_VERSION && pyenv latest global xxPYTHON_VERSION; } \
-    || { pyenv install --verbose xxPYTHON_VERSION && pyenv global xxPYTHON_VERSION; }; } && \
+    pyenv install --verbose xxPYTHON_VERSION && \
+    pyenv global xxPYTHON_VERSION && \
     pyenv rehash && \
     (test -f $PYENV_ROOT/versions/*/bin/python3 || ln -s python $(echo -n $PYENV_ROOT/versions/*)/bin/python3)
 
