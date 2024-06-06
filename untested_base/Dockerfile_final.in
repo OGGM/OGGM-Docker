@@ -1,6 +1,6 @@
 ###################################################
 # Dockerfile to build a Python environment
-# with OGGM installed, based on Ubuntu 22.04.
+# with OGGM installed, based on Ubuntu 24.04.
 ###################################################
 
 FROM xxEMPTY_TAG

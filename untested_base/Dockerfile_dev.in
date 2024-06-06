@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as xxDEV_TAG
+FROM ubuntu:24.04 as xxDEV_TAG
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \
@@ -45,7 +45,6 @@ RUN \
         liblzma-dev \
         libsqlite3-dev \
         libgdbm-dev \
-        libmpdec-dev \
         libexpat1-dev \
         libblosc-dev \
         libbrotli-dev \
