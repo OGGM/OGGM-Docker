@@ -137,7 +137,7 @@ RUN \
     $PIP install --no-cache-dir --no-binary :all: cftime Bottleneck
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
-    $PIP install --no-cache-dir "git+https://github.com/scipy/scipy@maintenance/1.14.x"
+    $PIP install --no-cache-dir m4_ifelse(xxPYTHON_VERSION, 3.9, --no-binary scipy scipy, "git+https://github.com/scipy/scipy@maintenance/1.14.x")
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: pandas shapely
