@@ -130,7 +130,7 @@ RUN \
     export PIP_USE_PEP517=1 && \
     $PIP install --no-cache-dir versioneer && \
     $PIP install --no-cache-dir --no-binary :all: numba && \
-    $PIP install --no-cache-dir --no-binary :all: "numpy<2" && \
+    $PIP install --no-cache-dir --no-binary :all: numpy && \
     $PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
     $PIP install --no-cache-dir --no-binary :all: pythran && \
     $PIP install --no-cache-dir --no-binary :all: cftime Bottleneck
