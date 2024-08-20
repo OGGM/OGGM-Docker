@@ -129,7 +129,7 @@ RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     export PIP_USE_PEP517=1 && \
     $PIP install --no-cache-dir versioneer && \
-    $PIP install --no-cache-dir --no-binary :all: numba && \
+    { $PIP install --no-cache-dir --no-binary :all: "numba>=0.60.1" || $PIP install --no-cache-dir --no-binary :all: "git+https://github.com/numba/numba.git"; } && \
     $PIP install --no-cache-dir --no-binary :all: numpy && \
     $PIP install --no-cache-dir --no-binary :all: cython pybind11 six && \
     $PIP install --no-cache-dir --no-binary :all: pythran && \
