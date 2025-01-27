@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 as xxDEV_TAG
+FROM ubuntu:24.04 AS xxDEV_TAG
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \
