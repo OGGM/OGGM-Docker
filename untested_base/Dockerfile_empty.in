@@ -38,6 +38,7 @@ RUN \
         libsnappy1v5 \
         libzopfli1 \
         libxcb1 \
+        libllvm15 \
         libgomp1 \
         sqlite3 \
         curl \
