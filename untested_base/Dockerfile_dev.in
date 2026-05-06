@@ -179,7 +179,7 @@ RUN \
         motionless \
         requests \
         tifffile \
-        "git+https://github.com/OGGM/pytest-mpl.git" \
+        "git+https://github.com/OGGM/pytest-mpl-oggm.git" \
         "git+https://github.com/fmaussion/salem.git" && \
     ${PIP} install --no-cache-dir --no-binary scikit-image,scikit-learn scikit-image scikit-learn
 
