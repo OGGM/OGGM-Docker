@@ -20,7 +20,7 @@ jobs:
     name: Build Python ${{ matrix.pyver }} Image
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
     - name: Install buildx
       uses: docker/setup-buildx-action@v4
     - name: Login to Docker
