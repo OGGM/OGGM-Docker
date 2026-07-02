@@ -154,10 +154,6 @@ RUN \
 
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
-    $PIP install --no-cache-dir --no-binary tables tables
-
-RUN \
-    export NPY_NUM_BUILD_JOBS=$(nproc) && \
     $PIP install --no-cache-dir --no-binary :all: \
         rasterio \
         descartes \
@@ -169,6 +165,7 @@ RUN \
         dask \
         distributed \
         "xarray>=0.20.2" \
+        xvec \
         rioxarray \
         nose \
         filelock \
@@ -180,6 +177,7 @@ RUN \
         requests \
         tifffile \
         zarr \
+        pyarrow \
         "git+https://github.com/OGGM/pytest-mpl-oggm.git" \
         "git+https://github.com/fmaussion/salem.git" && \
     ${PIP} install --no-cache-dir --no-binary scikit-image,scikit-learn scikit-image scikit-learn
