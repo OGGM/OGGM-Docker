@@ -53,8 +53,8 @@ RUN \
         liblz4-dev \
         libsnappy-dev \
         libzopfli-dev \
-        llvm-20 \
-        llvm-20-dev \
+        llvm-22 \
+        llvm-22-dev \
         sqlite3 \
         curl \
         ca-certificates \
