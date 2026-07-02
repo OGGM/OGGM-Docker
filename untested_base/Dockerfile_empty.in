@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \
@@ -11,7 +11,7 @@ RUN \
         libtiff6 \
         libpng16-16t64 \
         libhdf4-0 \
-        libhdf5-103-1t64 libhdf5-hl-100t64 libhdf5-cpp-103-1t64 libhdf5-hl-cpp-100t64 libhdf5-hl-fortran-100t64  \
+        libhdf5-310 libhdf5-cpp-310 libhdf5-fortran-310 libhdf5-hl-310 libhdf5-hl-cpp-310 libhdf5-hl-fortran-310  \
         libqhull8.0 \
         libqhull-r8.0 \
         libxml2 \
@@ -21,7 +21,7 @@ RUN \
         libopenjp2-7 \
         libwebp7 \
         libjson-c5 \
-        libgeos-c1v5 \
+        libgeos-c1t64 \
         liblapack3 \
         libopenblas0 \
         libagg2 \
