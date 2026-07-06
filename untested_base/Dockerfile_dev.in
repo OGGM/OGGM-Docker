@@ -66,6 +66,9 @@ RUN \
 RUN locale-gen en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
+ENV CARGO_HOME="/opt/cargo" RUSTUP_HOME="/opt/rustup" PATH="/opt/cargo/bin:${PATH}"
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y --no-modify-path
+
 RUN \
     curl -L "https://github.com/OSGeo/PROJ/releases/download/xxPROJ_VERSION/proj-xxPROJ_VERSION.tar.gz" -o proj.tar.gz && \
     tar xavf proj.tar.gz && \
