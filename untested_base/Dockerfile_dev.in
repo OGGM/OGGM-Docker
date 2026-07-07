@@ -57,6 +57,7 @@ RUN \
         libarrow-dataset-dev \
         libarrow-acero-dev \
         libarrow-flight-dev \
+        libgandiva-dev \
         llvm-22 \
         llvm-22-dev \
         sqlite3 \
