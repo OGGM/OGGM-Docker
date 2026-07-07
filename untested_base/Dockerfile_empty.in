@@ -18,7 +18,7 @@ RUN \
         libarrow2300 \
         libarrow-dataset2300 \
         libarrow-acero2300 \
-        libarrow-flight-dev \
+        libarrow-flight2300 \
         libgif7 \
         libjpeg8 \
         libjpeg-turbo8 \
