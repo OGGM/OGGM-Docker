@@ -55,6 +55,7 @@ RUN \
         libzopfli-dev \
         libarrow-dev \
         libarrow-dataset-dev \
+        libarrow-acero-dev \
         llvm-22 \
         llvm-22-dev \
         sqlite3 \
