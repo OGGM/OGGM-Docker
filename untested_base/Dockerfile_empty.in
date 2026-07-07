@@ -16,6 +16,7 @@ RUN \
         libqhull-r8.0 \
         libxml2 \
         libarrow2300 \
+        libarrow-dataset2300 \
         libgif7 \
         libjpeg8 \
         libjpeg-turbo8 \
