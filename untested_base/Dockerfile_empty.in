@@ -15,11 +15,6 @@ RUN \
         libqhull8.0 \
         libqhull-r8.0 \
         libxml2 \
-        libarrow2300 \
-        libarrow-dataset2300 \
-        libarrow-acero2300 \
-        libarrow-flight2300 \
-        libgandiva2300 \
         libgif7 \
         libjpeg8 \
         libjpeg-turbo8 \
@@ -43,7 +38,6 @@ RUN \
         libsnappy1v5 \
         libzopfli1 \
         libxcb1 \
-        libllvm21 \
         libllvm22 \
         libgomp1 \
         sqlite3 \

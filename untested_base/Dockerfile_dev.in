@@ -53,17 +53,8 @@ RUN \
         liblz4-dev \
         libsnappy-dev \
         libzopfli-dev \
-        libarrow-dev \
-        libarrow-dataset-dev \
-        libarrow-acero-dev \
-        libarrow-flight-dev \
-        libgandiva-dev \
-        llvm-21 \
-        llvm-21-dev \
         llvm-22 \
         llvm-22-dev \
-        clang \
-        clang-21 \
         sqlite3 \
         curl \
         ca-certificates \
@@ -189,7 +180,6 @@ RUN \
         requests \
         tifffile \
         zarr \
-        pyarrow \
         "git+https://github.com/OGGM/pytest-mpl-oggm.git" \
         "git+https://github.com/fmaussion/salem.git" && \
     ${PIP} install --no-cache-dir --no-binary scikit-image,scikit-learn scikit-image scikit-learn
