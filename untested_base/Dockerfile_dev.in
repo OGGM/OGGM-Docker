@@ -59,6 +59,7 @@ RUN \
         libarrow-flight-dev \
         libgandiva-dev \
         llvm-21 \
+        llvm-21-dev \
         llvm-22 \
         llvm-22-dev \
         sqlite3 \

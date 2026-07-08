@@ -43,6 +43,7 @@ RUN \
         libsnappy1v5 \
         libzopfli1 \
         libxcb1 \
+        libllvm21 \
         libllvm22 \
         libgomp1 \
         sqlite3 \
