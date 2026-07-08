@@ -62,6 +62,8 @@ RUN \
         llvm-21-dev \
         llvm-22 \
         llvm-22-dev \
+        clang \
+        clang-21 \
         sqlite3 \
         curl \
         ca-certificates \
