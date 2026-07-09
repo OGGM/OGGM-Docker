@@ -8,6 +8,7 @@ RUN \
         fonts-dejavu \
         libfreetype6 \
         netcdf-bin \
+        libaec0 \
         libtiff6 \
         libpng16-16t64 \
         libhdf4-0 \
