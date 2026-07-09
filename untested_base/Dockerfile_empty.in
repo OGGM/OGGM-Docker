@@ -14,7 +14,7 @@ RUN \
         libhdf5-310 libhdf5-cpp-310 libhdf5-fortran-310 libhdf5-hl-310 libhdf5-hl-cpp-310 libhdf5-hl-fortran-310  \
         libqhull8.0 \
         libqhull-r8.0 \
-        libxml2 \
+        libxml2-16 \
         libgif7 \
         libjpeg8 \
         libjpeg-turbo8 \
