@@ -126,6 +126,10 @@ ENV PIP=pip
 RUN printf '[libs]\nsystem_freetype = True\n' > /tmp/mpl_setup.cfg
 ENV MPLSETUPCFG=/tmp/mpl_setup.cfg
 
+# Prevent broken numpy release from being used as bdep
+RUN printf 'numpy!=2.5.0\n' >> /tmp/build_constrs.txt
+ENV PIP_BUILD_CONSTRAINT=/tmp/build_constrs.txt
+
 # Special-Case packages that have a specific build order and/or special parameters
 ENV LLVM_CONFIG=llvm-config-20
 RUN \
