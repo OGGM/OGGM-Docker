@@ -190,5 +190,9 @@ RUN \
     ${PIP} install --no-cache-dir --no-binary scikit-image,scikit-learn scikit-image scikit-learn
 
 RUN \
+    export NPY_NUM_BUILD_JOBS=$(nproc) && \
+    $PIP install --no-cache-dir pyarrow
+
+RUN \
     sed -i 's/^backend.*/backend : Agg/' "$(python3 -c "import matplotlib, os; print(os.path.dirname(matplotlib.__file__))")"/mpl-data/matplotlibrc && \
     pyenv rehash
