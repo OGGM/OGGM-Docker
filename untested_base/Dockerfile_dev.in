@@ -132,7 +132,7 @@ ENV PIP_BUILD_CONSTRAINT=/tmp/build_constrs.txt \
     PIP_CONSTRAINT=/tmp/build_constrs.txt
 
 # Special-Case packages that have a specific build order and/or special parameters
-ENV LLVM_CONFIG=llvm-config-20
+ENV LLVM_CONFIG=llvm-config-22
 RUN \
     export NPY_NUM_BUILD_JOBS=$(nproc) && \
     export PIP_USE_PEP517=1 && \
